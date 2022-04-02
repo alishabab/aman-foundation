@@ -104,55 +104,87 @@ export default function Hero() {
   ];
 
   return (
-    <div className="relative">
-      {/* Carousel viewport */}
-      <div className="overflow-hidden" ref={emblaRef}>
-        {/* Carousel container */}
-        <div className="flex">
-          {/* Carousel slides */}
-          {posts.map((post) => {
-            const src = post.image_cover;
-            return (
-              <div
-                className="relative w-full flex-none overflow-hidden cursor-pointer"
-                key={post.title}>
-                <Link href={`/campaigns/${post.slug}`}>
-                  <a>
-                    <Image
-                      loader={() => src}
-                      src={src}
-                      width="100%"
-                      height="40%"
-                      layout="responsive"
-                      objectFit="fill"
-                      alt="cover image"
-                      placeholder="blur"
-                      blurDataURL={post.image_cover}
-                    />
-                  </a>
-                </Link>
-                <div className="bg-gray-900/70 rounded-md absolute top-[5%] left-[5%] text-primary-600 font-semibold text-xl py-0.5 px-2">
-                  Campaign Name
+    <>
+      <section className="relative">
+        {/* Carousel viewport */}
+        <div className="overflow-hidden" ref={emblaRef}>
+          {/* Carousel container */}
+          <div className="flex">
+            {/* Carousel slides */}
+            {posts.map((post) => {
+              const src = post.image_cover;
+              return (
+                <div
+                  className="relative w-full flex-none overflow-hidden cursor-pointer"
+                  key={post.title}>
+                  <Link href={`/campaigns/${post.slug}`}>
+                    <a>
+                      <Image
+                        loader={() => src}
+                        src={src}
+                        width="100%"
+                        height="40%"
+                        layout="responsive"
+                        objectFit="fill"
+                        alt="cover image"
+                        placeholder="blur"
+                        blurDataURL={post.image_cover}
+                      />
+                    </a>
+                  </Link>
+                  <div className="bg-gray-900/70 rounded-md absolute top-[5%] left-[5%] text-primary-600 font-semibold text-xl py-0.5 px-2">
+                    Campaign Name
+                  </div>
+                  <Button
+                    rounded
+                    className="w-auto absolute bottom-[15%] right-[10%]">
+                    Support
+                  </Button>
                 </div>
-                <Button className="w-auto absolute bottom-[15%] right-[10%]">
-                  Support
-                </Button>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className="absolute left-1/2 bottom-2 flex space-x-2">
-        {scrollSnaps.map((_, idx) => (
-          <button
-            className={`w-2 h-2 rounded-full ${
-              idx === selectedIndex ? "bg-primary-500" : "bg-gray-300"
-            }`}
-            key={idx}
-            onClick={() => scrollTo(idx)}
+        <div className="absolute left-1/2 bottom-2 flex space-x-2">
+          {scrollSnaps.map((_, idx) => (
+            <button
+              className={`w-2 h-2 rounded-full ${
+                idx === selectedIndex ? "bg-primary-500" : "bg-gray-300"
+              }`}
+              key={idx}
+              onClick={() => scrollTo(idx)}
+            />
+          ))}
+        </div>
+      </section>
+      <section className="my-8 px-2">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-extrabold text-secondary-600 mb-2">
+            IMPACT STORY
+          </h1>
+          <Image
+            src="/assets/images/media_1.jpg"
+            width="100%"
+            height="40%"
+            layout="responsive"
+            objectFit="fill"
+            alt="story"
+            blurDataURL="/assets/images/media_1.jpg"
           />
-        ))}
-      </div>
-    </div>
+          <h2 className="text-xl text-primary-600 font-bold">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </h2>
+          <p className="text-gray-600">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum,
+            excepturi.
+          </p>
+          <Link href="/stories/first-post" passHref>
+            <a className="mt-2">
+              <Button className="w-auto">READ MORE</Button>
+            </a>
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
