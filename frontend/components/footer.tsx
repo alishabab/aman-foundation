@@ -40,7 +40,14 @@ export const Footer = () => {
       <div className="mt-8 text-center">
         <p className="text-xs text-gray-500">© 2022 AmanFoundation</p>
         <p className="text-xs text-gray-500 mt-2">
-          Having issues? Report it here <FontAwesomeIcon icon={faGithub} />
+          Having issues? Report it{" "}
+          <a
+            className="hover:text-secondary-600 underline"
+            href="https://github.com/alishabab/aman-foundation/issues"
+            rel="noopener noreferrer"
+            target="_blank">
+            here <FontAwesomeIcon icon={faGithub} />
+          </a>
         </p>
       </div>
     </footer>

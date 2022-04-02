@@ -3,7 +3,14 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import {
+  faBowlRice,
+  faBookOpen,
+  faHandHoldingHeart,
+  faSunPlantWilt,
+} from "@fortawesome/free-solid-svg-icons";
 import { Button } from "components";
+import { AchievementCard } from "components/achievementCard";
 
 export default function Hero() {
   const autoplay = useRef(
@@ -103,6 +110,33 @@ export default function Hero() {
     },
   ];
 
+  const achievements = [
+    {
+      id: 1,
+      title: "lorem ipsum",
+      description: "lorem ipsum dolor sit.",
+      icon: faBowlRice,
+    },
+    {
+      id: 2,
+      title: "lorem ipsum",
+      description: "lorem ipsum dolor sit.",
+      icon: faBookOpen,
+    },
+    {
+      id: 3,
+      title: "lorem ipsum",
+      description: "lorem ipsum dolor sit.",
+      icon: faHandHoldingHeart,
+    },
+    {
+      id: 4,
+      title: "lorem ipsum",
+      description: "lorem ipsum dolor sit.",
+      icon: faSunPlantWilt,
+    },
+  ];
+
   return (
     <>
       <section className="relative">
@@ -157,7 +191,8 @@ export default function Hero() {
           ))}
         </div>
       </section>
-      <section className="my-8 px-2">
+
+      <section className="mt-8 px-2">
         <div className="flex flex-col">
           <h1 className="text-2xl font-extrabold text-secondary-600 mb-2">
             IMPACT STORY
@@ -183,6 +218,19 @@ export default function Hero() {
               <Button className="w-auto">READ MORE</Button>
             </a>
           </Link>
+        </div>
+      </section>
+      <section className="mt-8 bg-smiling-children bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto">
+        <div className="flex flex-wrap justify-center items-center py-8">
+          {achievements.map((achievement) => (
+            <AchievementCard
+              key={achievement.id}
+              icon={achievement.icon}
+              title={achievement.title}
+              description={achievement.description}
+              className="m-4"
+            />
+          ))}
         </div>
       </section>
     </>

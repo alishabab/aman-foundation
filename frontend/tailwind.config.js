@@ -29,6 +29,9 @@ module.exports = {
           900: "#9e510d",
         },
       },
+      backgroundImage: {
+        "smiling-children": "url('/assets/images/media_1.jpg')",
+      },
     },
   },
   plugins: [],
