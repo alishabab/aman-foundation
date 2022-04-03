@@ -1,9 +1,12 @@
 import Image from "next/image";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Sidebar } from "./sidebar";
 import { useEffect, useState } from "react";
 export const Navbar = () => {
+  const { data: session } = useSession();
+
   const pathname: string =
     typeof window !== "undefined" ? window.location.pathname : "";
 
@@ -14,6 +17,7 @@ export const Navbar = () => {
       setShowSidebar(false);
     }
   }, [pathname]);
+
   useEffect(() => {});
   return (
     <nav className="w-full h-16 flex items-center justify-between px-4 fixed top-0 right-0 left-0 z-10 bg-gray-100 shadow-md">
@@ -39,7 +43,7 @@ export const Navbar = () => {
         className={`fixed w-full h-full left-0 top-16 ${
           showSidebar ? "translate-x-0" : "translate-x-[-100%]"
         } ease-in-out duration-300`}>
-        <Sidebar />
+        <Sidebar user={session?.user} />
       </div>
     </nav>
   );
