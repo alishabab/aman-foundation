@@ -15,14 +15,18 @@ export default function Component() {
     return (
       <>
         Signed in as {session.user?.email} <br />
-        <Button onClick={() => signOut()}>Sign out</Button>
+        <Button className="w-auto" onClick={() => signOut()}>
+          Sign out
+        </Button>
       </>
     );
   }
   return (
     <>
       Not signed in <br />
-      <Button onClick={() => signIn()}>Sign in</Button>
+      <Button className="w-auto" onClick={() => signIn()}>
+        Sign in
+      </Button>
     </>
   );
 }
