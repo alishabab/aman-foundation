@@ -1,3 +1,4 @@
+import { Button } from "components";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -14,14 +15,14 @@ export default function Component() {
     return (
       <>
         Signed in as {session.user?.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
+        <Button onClick={() => signOut()}>Sign out</Button>
       </>
     );
   }
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <Button onClick={() => signIn()}>Sign in</Button>
     </>
   );
 }
