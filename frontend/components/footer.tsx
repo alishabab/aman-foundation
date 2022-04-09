@@ -6,11 +6,15 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { Logo } from "./logo";
 export const Footer = () => {
   return (
     <footer className="border-t-[0.0125rem] border-gray-300 bg-gray-100 py-8 px-4">
       <div className="flex flex-col items-center">
-        <div className="flex items-center space-x-16">
+        <div className="mb-4 text-primary-600">
+          <Logo />
+        </div>
+        <div className="flex items-center space-x-8">
           <FontAwesomeIcon
             icon={faFacebookSquare}
             size="2x"
@@ -38,9 +42,9 @@ export const Footer = () => {
         <p className="text-xs text-gray-400"></p>
       </div>
       <div className="mt-8 text-center">
-        <p className="text-xs text-gray-500">© 2022 AmanFoundation</p>
+        <p className="text-xs text-gray-500">© 2022 Aman Foundation</p>
         <p className="text-xs text-gray-500 mt-2">
-          Having issues? Report it{" "}
+          Having issue? Report it{" "}
           <a
             className="hover:text-secondary-600 underline"
             href="https://github.com/alishabab/aman-foundation/issues"

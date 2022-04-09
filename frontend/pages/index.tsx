@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "components";
 import { AchievementCard } from "components/achievementCard";
+import { Heading } from "components/heading";
 
 export default function Hero() {
   const autoplay = useRef(
@@ -194,9 +195,7 @@ export default function Hero() {
 
       <section className="mt-8 px-2">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-extrabold text-secondary-600 mb-2">
-            IMPACT STORY
-          </h1>
+          <Heading className="mb-2">IMPACT STORY</Heading>
           <Image
             src="/assets/images/media_1.jpg"
             width="100%"

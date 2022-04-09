@@ -50,7 +50,8 @@ export const Sidebar: NextPage<{ user?: ILoggedInUserInfo }> = ({ user }) => {
       {user && <LoggedInUserInfo {...user} />}
       <SidebarLink href="/about" title="About" />
       <SidebarLink href="/donate" title="Donate" />
-      <SidebarLink href="/event" title="Events" />
+      <SidebarLink href="/campaigns" title="Campaigns" />
+      <SidebarLink href="/stories" title="Stories" />
     </div>
   );
 };
