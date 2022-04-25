@@ -34,7 +34,7 @@ const uploadFormFiles = async (req: Request, res: Response) => {
           const data = fs.readFileSync(file.path);
           // @ts-ignore
           filename = `${nanoid()}-${file.name}`;
-          fs.writeFileSync(`public/uploads/${filename}`, data);
+          fs.writeFileSync(`../../../public/uploads/${filename}`, data);
           // @ts-ignore
           fs.unlinkSync(file.path);
         })

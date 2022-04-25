@@ -18,7 +18,7 @@ const removeFile = async (req: Request, res: Response) => {
         .json({ success: false, message: "No file provided" });
     }
 
-    fs.unlinkSync(`public/uploads/${file}`);
+    fs.unlinkSync(`../../../public/uploads/${file}`);
     return res.status(200).json({ success: true, message: "File removed" });
   } catch (err) {
     // @ts-ignore
