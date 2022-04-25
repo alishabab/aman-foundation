@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { v2 as cloudinary } from "cloudinary";
 import runMiddleware from "utils/runMiddleware";
+import { config as appConfig } from "config";
+
+cloudinary.config({
+  cloud_name: appConfig.CLOUDINARY_NAME,
+  api_key: appConfig.CLOUDINARY_API_KEY,
+  api_secret: appConfig.CLOUDINARY_API_SECRET,
+});
 
 const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
