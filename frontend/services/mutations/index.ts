@@ -1,4 +1,5 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { CacheKeys } from "services/cacheKeys";
 import api from "services/api";
 import { Campaign } from "types";
 const uploadImage = async (file: string | ArrayBuffer | null) => {
@@ -31,10 +32,6 @@ const addCampaign = async (campaign: Omit<Campaign, "id" | "slug">) => {
   return res.data.success;
 };
 
-export const useAddCampaignMutation = () => {
-  return useMutation(addCampaign);
-};
-
 const editCampaign = async (campaign: Campaign) => {
   const res = await api.put<{ success: boolean }>(
     `/campaigns/${campaign.slug}`,
@@ -43,15 +40,34 @@ const editCampaign = async (campaign: Campaign) => {
   return res.data.success;
 };
 
-export const useEditCampaignMutation = () => {
-  return useMutation(editCampaign);
-};
-
 const deleteCampaign = async (slug: string) => {
   const res = await api.post<{ success: boolean }>(`/campaigns/${slug}`);
   return res.data.success;
 };
 
+export const useAddCampaignMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(addCampaign, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Campaigns);
+    },
+  });
+};
+
+export const useEditCampaignMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(editCampaign, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Campaigns);
+    },
+  });
+};
+
 export const useDeleteCampaignMutation = () => {
-  return useMutation(deleteCampaign);
+  const queryClient = useQueryClient();
+  return useMutation(deleteCampaign, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Campaigns);
+    },
+  });
 };

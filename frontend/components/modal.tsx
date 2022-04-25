@@ -9,11 +9,12 @@ interface IProps {
 export const Modal: NextPage<IProps> = ({ children, isOpen, onClick }) => {
   const [hideScrollbar, setHideScrollbar] = useState(isOpen);
   useEffect(() => {
-    if (hideScrollbar && typeof window !== "undefined") {
-      document.body.style.overflow = "hidden";
-    } else if (typeof window !== "undefined") {
-      document.body.style.overflow = "unset";
-    }
+    // TODO: NEED TO IMPROVE THIS
+    // if (hideScrollbar && typeof window !== "undefined") {
+    //   document.body.style.overflow = "hidden";
+    // } else if (typeof window !== "undefined") {
+    //   document.body.style.overflow = "unset";
+    // }
   }, [hideScrollbar]);
 
   return (

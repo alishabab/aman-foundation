@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 interface IProps {
   campaign?: Campaign;
+  cb: () => void;
 }
 
 type InitialState = Campaign & { file: null | File; localImageUrl: string };
@@ -31,7 +32,7 @@ const initialState: InitialState = {
   isHighlighted: false,
 };
 
-export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
+export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState(
     campaign
@@ -93,8 +94,8 @@ export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
         const image = await uploadImage(base64);
         await addCampaign({ title, description, image, isHighlighted });
       }
-
       setIsLoading(false);
+      cb();
     } catch (error) {
       // @ts-ignore
       alert(error.message);

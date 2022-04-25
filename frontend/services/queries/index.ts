@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { CacheKeys } from "services/cacheKeys";
 import api from "services/api";
 import { Campaign } from "types";
 export const getCampaigns = async () => {
@@ -7,5 +8,5 @@ export const getCampaigns = async () => {
 };
 
 export const useGetCampaignsQuery = () => {
-  return useQuery("campaigns", getCampaigns);
+  return useQuery(CacheKeys.Campaigns, getCampaigns);
 };

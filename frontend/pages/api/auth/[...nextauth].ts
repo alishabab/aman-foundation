@@ -13,10 +13,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
-      }
+    async jwt({ token, user }) {
       if (user) {
         // User object only passed on initial JWT creation
         // @ts-ignore
@@ -27,7 +24,6 @@ export default NextAuth({
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
       session.isAdmin = token.isAdmin;
-      session.accessToken = token.accessToken;
       return session;
     },
   },

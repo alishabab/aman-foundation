@@ -1,10 +1,7 @@
-import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useSession } from "next-auth/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal, AddCampaign } from "components";
 import { getCampaigns, useGetCampaignsQuery } from "services/queries";
 
@@ -14,19 +11,19 @@ import {
   useDeleteCampaignMutation,
   useDeleteImageMutation,
 } from "services/mutations";
+import { CampaignCard } from "components/campaignCard";
 
 const Campaigns = () => {
-  const [addCampaign, setAddCampaign] = useState(false);
+  const [isAddingCampaign, setIsAddingCampaign] = useState(false);
+  const [isDeletingCampaign, setIsDeletingCampaign] = useState(false);
   const [editedCampaign, setEditedCampaign] = useState<null | Campaign>(null);
   const [deletingCampaign, setDeletingCampaign] = useState<null | Campaign>(
     null
   );
-  const session = useSession();
-  const { data: campaigns, error, isLoading } = useGetCampaignsQuery();
-
   const { mutateAsync: deleteImage } = useDeleteImageMutation();
-  const { mutateAsync } = useDeleteCampaignMutation();
-
+  const { mutateAsync: deleteCampaign } = useDeleteCampaignMutation();
+  const session = useSession();
+  const { data: campaigns } = useGetCampaignsQuery();
   const handleDeleteCampaign = async ({
     imageId,
     slug,
@@ -34,20 +31,31 @@ const Campaigns = () => {
     imageId: string;
     slug: string;
   }) => {
+    setIsDeletingCampaign(true);
     try {
-      await mutateAsync(slug);
       await deleteImage(imageId);
+      await deleteCampaign(slug);
+      setIsDeletingCampaign(false);
+      setDeletingCampaign(null);
     } catch (err) {
-      // @ts-ignore
-      alert(err.message);
+      setIsDeletingCampaign(false);
     }
+  };
+
+  const onCompleted = () => {
+    setEditedCampaign(null);
+    setDeletingCampaign(null);
+    setIsAddingCampaign(false);
+    setIsDeletingCampaign(false);
   };
 
   return (
     <div className="px-2 py-4">
-      {addCampaign && (
-        <Modal isOpen={addCampaign} onClick={() => setAddCampaign(false)}>
-          <AddCampaign />
+      {isAddingCampaign && (
+        <Modal
+          isOpen={isAddingCampaign}
+          onClick={() => setIsAddingCampaign(false)}>
+          <AddCampaign cb={onCompleted} />
         </Modal>
       )}
 
@@ -55,7 +63,7 @@ const Campaigns = () => {
         <Modal
           isOpen={!!editedCampaign}
           onClick={() => setEditedCampaign(null)}>
-          <AddCampaign campaign={editedCampaign} />
+          <AddCampaign campaign={editedCampaign} cb={onCompleted} />
         </Modal>
       )}
 
@@ -67,6 +75,7 @@ const Campaigns = () => {
             <Heading className="text-center mb-16">Delete Campaign?</Heading>
             <div className="flex justify-center space-x-8">
               <Button
+                loading={isDeletingCampaign}
                 secondary
                 className="w-32"
                 onClick={() => {
@@ -89,87 +98,27 @@ const Campaigns = () => {
         </Modal>
       )}
       {/* @ts-ignore */}
-      {/* {session?.data?.isAdmin && (
+      {session?.data?.isAdmin && (
         <Button
           secondary
           className="mb-2 w-64"
-          onClick={() => setAddCampaign(true)}>
+          onClick={() => setIsAddingCampaign(true)}>
           Add Campaign
         </Button>
-      )} */}
-      <Button
-        secondary
-        className="mb-2 w-64"
-        onClick={() => setAddCampaign(true)}>
-        Add Campaign
-      </Button>
-      {campaigns?.map(
-        ({ slug, id, title, description, image, isHighlighted }) => (
-          <div key={slug} className="mb-8 relative">
-            <>
-              <div className="absolute top-4 left-4 flex space-x-4 ">
-                <button
-                  className="text-secondary-600"
-                  onClick={() => {
-                    setEditedCampaign({
-                      id,
-                      slug,
-                      title,
-                      description,
-                      image,
-                      isHighlighted,
-                    });
-                  }}>
-                  <FontAwesomeIcon icon={faEdit} size="2x" />
-                </button>
-                <button
-                  className="text-secondary-600"
-                  onClick={() => {
-                    setDeletingCampaign({
-                      id,
-                      slug,
-                      title,
-                      description,
-                      image,
-                      isHighlighted,
-                    });
-                  }}>
-                  <FontAwesomeIcon icon={faTrash} size="2x" />
-                </button>
-              </div>
-              <div className="absolute top-4 right-4">
-                <FontAwesomeIcon
-                  className={`${
-                    isHighlighted ? "text-primary-600" : "text-gray-600"
-                  }`}
-                  icon={faStar}
-                  size="2x"
-                />
-              </div>
-            </>
-
-            <Link passHref href={`/campaigns/${slug}`}>
-              <a>
-                <div className="shadow-md rounded-md">
-                  <div
-                    style={{ backgroundImage: `url(${image.url})` }}
-                    className={`h-[30vh] bg-cover rounded-md`}></div>
-                  <div className="py-2 px-4">
-                    <Heading>{title}</Heading>
-                    <p>{description}</p>
-                    <Button
-                      rounded
-                      onClick={(e) => e.preventDefault()}
-                      className="mt-2">
-                      Support
-                    </Button>
-                  </div>
-                </div>
-              </a>
-            </Link>
-          </div>
-        )
       )}
+
+      {campaigns?.map((campaign) => (
+        <CampaignCard
+          key={campaign.slug}
+          campaign={campaign}
+          onClickEdit={() => {
+            setEditedCampaign(campaign);
+          }}
+          onClickDelete={() => {
+            setDeletingCampaign(campaign);
+          }}
+        />
+      ))}
     </div>
   );
 };

@@ -25,7 +25,7 @@ const findCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const deleteCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // await runMiddleware(req, res);
+    await runMiddleware(req, res);
     const { db } = await connectToDb();
     const campaigns = db.collection("campaigns");
     const { slug } = req.query;
@@ -47,7 +47,7 @@ const deleteCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const editCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // await runMiddleware(req, res);
+    await runMiddleware(req, res);
     const { db } = await connectToDb();
     const campaigns = db.collection("campaigns");
     const { slug } = req.query;

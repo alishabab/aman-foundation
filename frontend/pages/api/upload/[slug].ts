@@ -4,7 +4,7 @@ import runMiddleware from "utils/runMiddleware";
 
 const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    // await runMiddleware(req, res);
+    await runMiddleware(req, res);
     if (req.method !== "POST") {
       return res
         .status(400)
