@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import cloudinary from "lib/cloudinary";
+import { cloudinary } from "lib/cloudinary";
 import runMiddleware from "utils/runMiddleware";
 
 const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {

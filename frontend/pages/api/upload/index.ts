@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import cloudinary from "lib/cloudinary";
+import { cloudinary } from "lib/cloudinary";
 import { nanoid } from "nanoid";
 import runMiddleware from "utils/runMiddleware";
 
