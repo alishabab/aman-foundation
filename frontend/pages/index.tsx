@@ -12,8 +12,10 @@ import {
 import { Button } from "components";
 import { AchievementCard } from "components/achievementCard";
 import { Heading } from "components/heading";
+import { useGetCampaignsQuery } from "service/queries";
 
 export default function Hero() {
+  const { data } = useGetCampaignsQuery();
   const autoplay = useRef(
     Autoplay(
       { delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true },
@@ -146,29 +148,27 @@ export default function Hero() {
           {/* Carousel container */}
           <div className="flex">
             {/* Carousel slides */}
-            {posts.map((post) => {
-              const src = post.image_cover;
+            {data?.map((campaign) => {
               return (
                 <div
                   className="relative w-full flex-none overflow-hidden cursor-pointer"
-                  key={post.title}>
+                  key={campaign.title}>
                   <Link href={`/campaigns/${post.slug}`}>
                     <a>
                       <Image
-                        loader={() => src}
-                        src={src}
+                        src={campaign.image.url}
                         width="100%"
                         height="40%"
                         layout="responsive"
                         objectFit="fill"
                         alt="cover image"
                         placeholder="blur"
-                        blurDataURL={post.image_cover}
+                        blurDataURL={campaign.image.url}
                       />
                     </a>
                   </Link>
                   <div className="bg-gray-900/70 rounded-md absolute top-[5%] left-[5%] text-primary-600 font-semibold text-xl py-0.5 px-2">
-                    Campaign Name
+                    {campaign.title}
                   </div>
                   <Button
                     rounded
