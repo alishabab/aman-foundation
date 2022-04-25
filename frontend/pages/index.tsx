@@ -153,7 +153,7 @@ export default function Hero() {
                 <div
                   className="relative w-full flex-none overflow-hidden cursor-pointer"
                   key={campaign.title}>
-                  <Link href={`/campaigns/${post.slug}`}>
+                  <Link href={`/campaigns/${campaign.slug}`}>
                     <a>
                       <Image
                         src={campaign.image.url}
