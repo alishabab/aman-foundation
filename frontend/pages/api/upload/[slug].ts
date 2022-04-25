@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import fs from "fs";
+import { NextApiRequest, NextApiResponse } from "next";
+import { v2 as cloudinary } from "cloudinary";
 import runMiddleware from "utils/runMiddleware";
 
-const removeFile = async (req: Request, res: Response) => {
+const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // await runMiddleware(req, res);
     if (req.method !== "POST") {
@@ -10,15 +10,16 @@ const removeFile = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "Method not allowed" });
     }
-    const { slug: file } = req.query;
+    const { slug: assetId } = req.query;
 
-    if (!file) {
+    if (!assetId) {
       return res
         .status(400)
         .json({ success: false, message: "No file provided" });
     }
 
-    fs.unlinkSync(`../../../public/uploads/${file}`);
+    // @ts-ignore
+    const resp = await cloudinary.uploader.destroy(assetId);
     return res.status(200).json({ success: true, message: "File removed" });
   } catch (err) {
     // @ts-ignore

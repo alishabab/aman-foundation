@@ -3,6 +3,9 @@ export type Campaign = {
   slug: string;
   title: string;
   description: string;
-  imageUrl: string;
+  image: {
+    id: string;
+    url: string;
+  };
   isHighlighted: boolean;
 };

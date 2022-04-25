@@ -1,14 +1,14 @@
-import type { Request, Response } from "express";
+import { NextApiRequest, NextApiResponse } from "next";
 import connectToDb from "utils/connectToDb";
 import { generateSlug } from "utils/generateSlug";
 import runMiddleware from "utils/runMiddleware";
 
-const addCampaing = async (req: Request, res: Response) => {
+const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // await runMiddleware(req, res);
     const { db } = await connectToDb();
-    const { title, description, imageUrl, isHighlighted = false } = req.body;
-    if (!title || !description || !imageUrl) {
+    const { title, description, image, isHighlighted = false } = req.body;
+    if (!title || !description || !image) {
       return res
         .status(400)
         .json({ success: false, message: "Missing fields" });
@@ -20,7 +20,7 @@ const addCampaing = async (req: Request, res: Response) => {
       slug,
       title,
       description,
-      imageUrl,
+      image,
       isHighlighted,
     });
 
@@ -33,7 +33,7 @@ const addCampaing = async (req: Request, res: Response) => {
   }
 };
 
-const findAllCampaigns = async (req: Request, res: Response) => {
+const findAllCampaigns = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await connectToDb();
     const campaigns = db.collection("campaigns");
@@ -44,7 +44,7 @@ const findAllCampaigns = async (req: Request, res: Response) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
-const campaigns = async (req: Request, res: Response) => {
+const campaigns = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       return findAllCampaigns(req, res);

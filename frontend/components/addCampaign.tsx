@@ -23,7 +23,10 @@ const initialState: InitialState = {
   description: "",
   slug: "",
   localImageUrl: "/assets/images/no-image.svg",
-  imageUrl: "",
+  image: {
+    id: "",
+    url: "",
+  },
   file: null,
   isHighlighted: false,
 };
@@ -35,7 +38,7 @@ export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
       ? {
           ...campaign,
           file: null,
-          localImageUrl: `/uploads/${campaign.imageUrl}`,
+          localImageUrl: campaign.image.url,
         }
       : initialState
   );
@@ -44,6 +47,16 @@ export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  const toBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const { mutateAsync: uploadImage } = useUploadImageMutation();
   const { mutateAsync: addCampaign } = useAddCampaignMutation();
   const { mutateAsync: deleteImage } = useDeleteImageMutation();
@@ -51,8 +64,8 @@ export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    const { id, slug, title, description, imageUrl, isHighlighted, file } =
-      state;
+    const { id, slug, title, description, image, isHighlighted, file } = state;
+
     try {
       if (campaign && !file) {
         await editCampaign({
@@ -60,23 +73,25 @@ export const AddCampaign: NextPage<IProps> = ({ campaign }) => {
           title,
           description,
           slug,
-          imageUrl,
+          image,
           isHighlighted,
         });
       } else if (campaign && file) {
-        await deleteImage(imageUrl);
-        const newImageUrl = await uploadImage(file);
+        await deleteImage(image.id);
+        const base64 = await toBase64(file);
+        const newImage = await uploadImage(base64);
         await editCampaign({
           id,
           title,
           description,
           slug,
-          imageUrl: newImageUrl,
+          image: newImage,
           isHighlighted,
         });
-      } else {
-        const imageUrl = await uploadImage(file);
-        await addCampaign({ title, description, imageUrl, isHighlighted });
+      } else if (file) {
+        const base64 = await toBase64(file);
+        const image = await uploadImage(base64);
+        await addCampaign({ title, description, image, isHighlighted });
       }
 
       setIsLoading(false);

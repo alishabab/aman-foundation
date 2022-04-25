@@ -1,8 +1,8 @@
-import type { Request, Response } from "express";
+import { NextApiRequest, NextApiResponse } from "next";
 import connectToDb from "utils/connectToDb";
 import runMiddleware from "utils/runMiddleware";
 
-const findCampaign = async (req: Request, res: Response) => {
+const findCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await connectToDb();
     const campaigns = db.collection("campaigns");
@@ -23,7 +23,7 @@ const findCampaign = async (req: Request, res: Response) => {
   }
 };
 
-const deleteCampaign = async (req: Request, res: Response) => {
+const deleteCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // await runMiddleware(req, res);
     const { db } = await connectToDb();
@@ -45,7 +45,7 @@ const deleteCampaign = async (req: Request, res: Response) => {
   }
 };
 
-const editCampaing = async (req: Request, res: Response) => {
+const editCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // await runMiddleware(req, res);
     const { db } = await connectToDb();
@@ -70,7 +70,7 @@ const editCampaing = async (req: Request, res: Response) => {
   }
 };
 
-const campaign = (req: Request, res: Response) => {
+const campaign = (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       return findCampaign(req, res);

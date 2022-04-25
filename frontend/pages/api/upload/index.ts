@@ -1,18 +1,22 @@
-import { Request, Response } from "express";
-import { File } from "formidable";
+import { NextApiRequest, NextApiResponse } from "next";
+import { v2 as cloudinary } from "cloudinary";
+import { config as appConfig } from "config";
 import { nanoid } from "nanoid";
-// @ts-ignore
-import Formidable from "formidable-serverless";
-import fs from "fs";
 import runMiddleware from "utils/runMiddleware";
+
+cloudinary.config({
+  cloud_name: appConfig.CLOUDINARY_NAME,
+  api_key: appConfig.CLOUDINARY_API_KEY,
+  api_secret: appConfig.CLOUDINARY_API_SECRET,
+});
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: true,
   },
 };
 
-const uploadFormFiles = async (req: Request, res: Response) => {
+const uploadFormFiles = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // await runMiddleware(req, res);
     if (req.method !== "POST") {
@@ -20,40 +24,12 @@ const uploadFormFiles = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "Method not allowed" });
     }
-
-    return new Promise(async (resolve, reject) => {
-      let filename = "";
-      const form = new Formidable.IncomingForm({
-        multiples: true,
-        keepExtensions: true,
-      });
-
-      form
-        .on("file", (name: string, file: File) => {
-          // @ts-ignore
-          const data = fs.readFileSync(file.path);
-          // @ts-ignore
-          filename = `${nanoid()}-${file.name}`;
-          fs.writeFileSync(`../../../public/uploads/${filename}`, data);
-          // @ts-ignore
-          fs.unlinkSync(file.path);
-        })
-        .on("aborted", () => {
-          reject(
-            res.status(500).json({ success: false, message: "Upload aborted" })
-          );
-        })
-        .on("end", () => {
-          resolve(
-            res.status(201).send({
-              success: true,
-              message: "Upload successful",
-              filename,
-            })
-          );
-        });
-
-      await form.parse(req);
+    const fileStr = req.body.data;
+    const result = await cloudinary.uploader.upload(fileStr);
+    return res.status(200).json({
+      success: true,
+      message: "Uploaded",
+      image: { url: result.secure_url, id: result.public_id },
     });
   } catch (err) {
     // @ts-ignore

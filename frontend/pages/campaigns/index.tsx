@@ -28,15 +28,15 @@ const Campaigns = () => {
   const { mutateAsync } = useDeleteCampaignMutation();
 
   const handleDeleteCampaign = async ({
-    filename,
+    imageId,
     slug,
   }: {
-    filename: string;
+    imageId: string;
     slug: string;
   }) => {
     try {
       await mutateAsync(slug);
-      await deleteImage(filename);
+      await deleteImage(imageId);
     } catch (err) {
       // @ts-ignore
       alert(err.message);
@@ -71,7 +71,7 @@ const Campaigns = () => {
                 className="w-32"
                 onClick={() => {
                   handleDeleteCampaign({
-                    filename: deletingCampaign.imageUrl,
+                    imageId: deletingCampaign.image.id,
                     slug: deletingCampaign.slug,
                   });
                 }}>
@@ -104,7 +104,7 @@ const Campaigns = () => {
         Add Campaign
       </Button>
       {campaigns?.map(
-        ({ slug, id, title, description, imageUrl, isHighlighted }) => (
+        ({ slug, id, title, description, image, isHighlighted }) => (
           <div key={slug} className="mb-8 relative">
             <>
               <div className="absolute top-4 left-4 flex space-x-4 ">
@@ -116,7 +116,7 @@ const Campaigns = () => {
                       slug,
                       title,
                       description,
-                      imageUrl,
+                      image,
                       isHighlighted,
                     });
                   }}>
@@ -130,7 +130,7 @@ const Campaigns = () => {
                       slug,
                       title,
                       description,
-                      imageUrl,
+                      image,
                       isHighlighted,
                     });
                   }}>
@@ -152,7 +152,7 @@ const Campaigns = () => {
               <a>
                 <div className="shadow-md rounded-md">
                   <div
-                    style={{ backgroundImage: `url(/uploads/${imageUrl})` }}
+                    style={{ backgroundImage: `url(${image.url})` }}
                     className={`h-[30vh] bg-cover rounded-md`}></div>
                   <div className="py-2 px-4">
                     <Heading>{title}</Heading>
