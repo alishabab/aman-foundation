@@ -21,7 +21,7 @@ export const Modal: NextPage<IProps> = ({ children, isOpen, onClick }) => {
       id="modal"
       aria-hidden="true"
       className="flex items-center justify-center bg-gray-600/75 overflow-x-hidden fixed top-0 right-0 left-0 bottom-0 z-50">
-      <div className="relative p-2 bg-white rounded-lg shadow dark:bg-gray-700 overflow-y-auto w-[90vw] h-[90vh] md:h-auto">
+      <div className="relative p-2 bg-white rounded-lg shadow dark:bg-gray-700 overflow-y-auto w-[90vw] max-h-[85vh] h-auto">
         <button
           onClick={() => {
             setHideScrollbar(false);
