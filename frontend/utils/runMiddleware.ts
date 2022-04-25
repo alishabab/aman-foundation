@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 
-async function runMiddleware(req: Request, res: Response) {
+async function runMiddleware(req: NextApiRequest, res: NextApiResponse) {
   return new Promise(async (resolve, reject) => {
     const session = await getSession({ req });
 
