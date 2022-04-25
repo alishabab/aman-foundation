@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
-
+import { signIn, signOut } from "next-auth/react";
 interface ISidebarLink {
   title: string;
   href: string;
@@ -52,6 +52,21 @@ export const Sidebar: NextPage<{ user?: ILoggedInUserInfo }> = ({ user }) => {
       <SidebarLink href="/donate" title="Donate" />
       <SidebarLink href="/campaigns" title="Campaigns" />
       <SidebarLink href="/stories" title="Stories" />
+      <div className="p-12 text-center">
+        {user ? (
+          <button
+            className="text-secondary-600 font-bold  hover:text-secondary-700"
+            onClick={() => signOut()}>
+            Log Out
+          </button>
+        ) : (
+          <button
+            className="text-secondary-600 font-bold  hover:text-secondary-700"
+            onClick={() => signIn()}>
+            Login/Sign Up
+          </button>
+        )}
+      </div>
     </div>
   );
 };

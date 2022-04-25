@@ -15,16 +15,20 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@types/formidable": "^2.0.4",
+    "axios": "^0.26.1",
     "embla-carousel-autoplay": "^6.2.0",
     "embla-carousel-react": "^6.2.0",
     "express": "^4.17.3",
     "formidable": "^2.0.1",
     "formidable-serverless": "^1.1.1",
+    "mongodb": "^4.5.0",
     "mv": "^2.1.1",
+    "nanoid": "^3.3.3",
     "next": "12.1.4",
     "next-auth": "^4.3.1",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "react-query": "^3.38.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",

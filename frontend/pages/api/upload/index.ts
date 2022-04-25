@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { File } from "formidable";
+import { nanoid } from "nanoid";
 // @ts-ignore
 import Formidable from "formidable-serverless";
 import fs from "fs";
+import runMiddleware from "utils/runMiddleware";
 
 export const config = {
   api: {
@@ -10,30 +12,53 @@ export const config = {
   },
 };
 
-export default function uploadFormFiles(req: Request, res: Response) {
-  return new Promise(async (resolve, reject) => {
-    const form = new Formidable.IncomingForm({
-      multiples: true,
-      keepExtensions: true,
-    });
+const uploadFormFiles = async (req: Request, res: Response) => {
+  try {
+    // await runMiddleware(req, res);
+    if (req.method !== "POST") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Method not allowed" });
+    }
 
-    form
-      .on("file", (name: string, file: File) => {
-        const data = fs.readFileSync(file.path);
-        fs.writeFileSync(`public/uploads/${file.name}`, data);
-        fs.unlinkSync(file.path);
-      })
-      .on("aborted", () => {
-        reject(
-          res.status(500).json({ success: false, message: "Upload aborted" })
-        );
-      })
-      .on("end", () => {
-        resolve(
-          res.status(200).send({ success: true, message: "Upload successful" })
-        );
+    return new Promise(async (resolve, reject) => {
+      let filename = "";
+      const form = new Formidable.IncomingForm({
+        multiples: true,
+        keepExtensions: true,
       });
 
-    await form.parse(req);
-  });
-}
+      form
+        .on("file", (name: string, file: File) => {
+          // @ts-ignore
+          const data = fs.readFileSync(file.path);
+          // @ts-ignore
+          filename = `${nanoid()}-${file.name}`;
+          fs.writeFileSync(`public/uploads/${filename}`, data);
+          // @ts-ignore
+          fs.unlinkSync(file.path);
+        })
+        .on("aborted", () => {
+          reject(
+            res.status(500).json({ success: false, message: "Upload aborted" })
+          );
+        })
+        .on("end", () => {
+          resolve(
+            res.status(201).send({
+              success: true,
+              message: "Upload successful",
+              filename,
+            })
+          );
+        });
+
+      await form.parse(req);
+    });
+  } catch (err) {
+    // @ts-ignore
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export default uploadFormFiles;

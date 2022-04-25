@@ -1,7 +1,9 @@
 import { NextPage } from "next";
-
+import { Spinner } from "./spinner";
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rounded?: boolean;
+  secondary?: boolean;
+  loading?: boolean;
 }
 
 export const Button: NextPage<IProps> = ({
@@ -9,16 +11,24 @@ export const Button: NextPage<IProps> = ({
   className,
   style,
   rounded = false,
+  secondary = false,
+  loading = false,
   ...props
 }) => {
   return (
     <button
-      className={`w-full bg-primary-600 text-lg font-bold text-white px-4 py-2 ${
+      className={`w-full ${
+        secondary
+          ? "bg-secondary-600 hover:bg-secondary-700"
+          : "bg-primary-600 hover:bg-primary-700"
+      }  text-lg font-bold text-white px-4 py-2 ${
         rounded ? "rounded-md" : ""
-      }  hover:bg-primary-700 ${className}`}
+      } ${
+        loading ? "opacity-75 cursor-not-allowed" : ""
+      } disabled:opacity-75 disabled:bg-gray-400 disabled:cursor-not-allowed ${className}`}
       style={style}
       {...props}>
-      {children}
+      {loading ? <Spinner /> : children}
     </button>
   );
 };

@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { config } from "config";
 
 const administrators = ["shababsaifi@gmail.com"];
 
@@ -7,12 +8,15 @@ export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || "",
+      clientId: config.GOOGLE_CLIENT_ID || "",
+      clientSecret: config.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
       if (user) {
         // User object only passed on initial JWT creation
         // @ts-ignore
@@ -23,6 +27,7 @@ export default NextAuth({
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
       session.isAdmin = token.isAdmin;
+      session.accessToken = token.accessToken;
       return session;
     },
   },
