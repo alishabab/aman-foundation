@@ -12,7 +12,7 @@ import {
 import { Button } from "components";
 import { AchievementCard } from "components/achievementCard";
 import { Heading } from "components/heading";
-import { useGetCampaignsQuery } from "service/queries";
+import { useGetCampaignsQuery } from "services/queries";
 
 export default function Hero() {
   const { data } = useGetCampaignsQuery();
