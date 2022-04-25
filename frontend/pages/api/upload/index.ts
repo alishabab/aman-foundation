@@ -1,14 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { v2 as cloudinary } from "cloudinary";
-import { config as appConfig } from "config";
+import cloudinary from "lib/cloudinary";
 import { nanoid } from "nanoid";
 import runMiddleware from "utils/runMiddleware";
-
-cloudinary.config({
-  cloud_name: appConfig.CLOUDINARY_NAME,
-  api_key: appConfig.CLOUDINARY_API_KEY,
-  api_secret: appConfig.CLOUDINARY_API_SECRET,
-});
 
 export const config = {
   api: {
