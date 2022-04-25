@@ -27,4 +27,5 @@ export default NextAuth({
       return session;
     },
   },
+  secret: config.JWT_SECRET || "",
 });
