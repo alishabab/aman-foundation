@@ -15,7 +15,10 @@ import { Heading } from "components/heading";
 import { useGetCampaignsQuery } from "services/queries";
 
 export default function Hero() {
-  const { data } = useGetCampaignsQuery();
+  const { data: campaigns } = useGetCampaignsQuery();
+  const highlitedCampaigns = campaigns?.filter(
+    (campaign) => campaign.isHighlighted
+  );
   const autoplay = useRef(
     Autoplay(
       { delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true },
@@ -148,22 +151,18 @@ export default function Hero() {
           {/* Carousel container */}
           <div className="flex">
             {/* Carousel slides */}
-            {data?.map((campaign) => {
+            {highlitedCampaigns?.map((campaign) => {
               return (
                 <div
-                  className="relative w-full flex-none overflow-hidden cursor-pointer"
+                  className="relative w-full h-[40vh] flex-none overflow-hidden cursor-pointer"
                   key={campaign.title}>
                   <Link href={`/campaigns/${campaign.slug}`}>
                     <a>
-                      <Image
-                        src={campaign.image.url}
-                        width="100%"
-                        height="40%"
-                        layout="responsive"
-                        objectFit="fill"
-                        alt="cover image"
-                        placeholder="blur"
-                        blurDataURL={campaign.image.url}
+                      <div
+                        className="w-full h-full bg-cover"
+                        style={{
+                          backgroundImage: `url(${campaign.image.url})`,
+                        }}
                       />
                     </a>
                   </Link>

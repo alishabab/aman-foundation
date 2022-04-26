@@ -9,3 +9,4 @@ export * from "./textarea";
 export * from "./spinner";
 export * from "./heading";
 export * from "./addCampaign";
+export * from "./shareBar";
