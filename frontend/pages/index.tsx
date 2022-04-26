@@ -155,7 +155,7 @@ export default function Hero() {
             {highlitedCampaigns?.map((campaign) => {
               return (
                 <div
-                  className="relative w-full h-[40vh] flex-none overflow-hidden cursor-pointer"
+                  className="relative w-full h-[35vh] flex-none overflow-hidden cursor-pointer"
                   key={campaign.title}>
                   <Link href={`/campaigns/${campaign.slug}`}>
                     <a>
