@@ -9,15 +9,18 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { SessionProvider } from "next-auth/react";
 
 import { Layout } from "components";
+import { AlertProvider } from "context/AlertContext";
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <AlertProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AlertProvider>
         </Hydrate>
       </QueryClientProvider>
     </SessionProvider>

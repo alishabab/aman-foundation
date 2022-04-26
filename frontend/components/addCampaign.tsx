@@ -11,6 +11,7 @@ import {
 import { Campaign } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useAlert } from "context/AlertContext";
 import { isValidImage } from "utils/isValidImage";
 interface IProps {
   campaign?: Campaign;
@@ -38,6 +39,7 @@ const initialState: InitialState = {
 
 export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { setAlert } = useAlert();
   const [state, setState] = useState(
     campaign
       ? {
@@ -81,7 +83,10 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
 
   const handleSubmit = async () => {
     if (!validateFields()) {
-      alert("Please fill all the fields");
+      setAlert({
+        type: "danger",
+        message: "Fill required fields.",
+      });
       return;
     }
     setIsLoading(true);
@@ -116,6 +121,10 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
       }
       setIsLoading(false);
       cb();
+      setAlert({
+        type: "success",
+        message: "Campaign Added.",
+      });
     } catch (error) {
       setIsLoading(false);
     }

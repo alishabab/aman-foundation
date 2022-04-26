@@ -12,9 +12,11 @@ import {
   useDeleteImageMutation,
 } from "services/mutations";
 import { CampaignCard } from "components/campaignCard";
+import { useAlert } from "context/AlertContext";
 import { CacheKeys } from "services/cacheKeys";
 
 const Campaigns = () => {
+  const { setAlert } = useAlert();
   const [isAddingCampaign, setIsAddingCampaign] = useState(false);
   const [isDeletingCampaign, setIsDeletingCampaign] = useState(false);
   const [editedCampaign, setEditedCampaign] = useState<null | Campaign>(null);
@@ -38,6 +40,10 @@ const Campaigns = () => {
       await deleteCampaign(slug);
       setIsDeletingCampaign(false);
       setDeletingCampaign(null);
+      setAlert({
+        type: "success",
+        message: "Campaign Deleted.",
+      });
     } catch (err) {
       setIsDeletingCampaign(false);
     }

@@ -19,4 +19,4 @@ export type User = {
   email?: string | null;
 };
 
-export type TAlert = "success" | "info" | "danger";
+export type TAlert = "none" | "success" | "info" | "danger";

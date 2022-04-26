@@ -16,6 +16,7 @@ interface Props {
 }
 export const ShareBar: NextPage<Props> = ({ className, style }) => {
   const [isShown, setIsShown] = useState(true);
+
   return (
     <div
       className={`relative h-16 bg-white border-t border-gray-100 flex items-center justify-between py-2 px-4 ${
