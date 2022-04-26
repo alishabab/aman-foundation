@@ -2,6 +2,10 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { dehydrate, QueryClient } from "react-query";
+import { getCampaigns, useGetCampaignsQuery } from "services/queries";
+import { CacheKeys } from "services/cacheKeys";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   faBowlRice,
@@ -9,17 +13,16 @@ import {
   faHandHoldingHeart,
   faSunPlantWilt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "components";
+import { Alert, Button } from "components";
 import { AchievementCard } from "components/achievementCard";
 import { Heading } from "components/heading";
-import { useGetCampaignsQuery } from "services/queries";
 
 export default function Hero() {
   const { data: campaigns } = useGetCampaignsQuery();
-  const highlitedCampaigns = campaigns
-    ?.filter((campaign) => campaign.isHighlighted)
-    .slice(0, 4);
 
+  const highlitedCampaigns = campaigns?.filter(
+    (campaign) => campaign.isHighlighted
+  );
   const autoplay = useRef(
     Autoplay(
       { delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true },
@@ -235,3 +238,15 @@ export default function Hero() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};

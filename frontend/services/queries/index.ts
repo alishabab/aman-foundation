@@ -17,5 +17,5 @@ export const useGetCampaignsQuery = () => {
 };
 
 export const useGetCampaignQuery = ({ slug }: { slug: string }) => {
-  return useQuery([CacheKeys.Campaigns, slug], () => getCampaign(slug));
+  return useQuery([CacheKeys.Campaign, slug], () => getCampaign(slug));
 };

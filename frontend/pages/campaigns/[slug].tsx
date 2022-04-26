@@ -41,9 +41,10 @@ const Campaign = () => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const slug = ctx?.params?.slug as string;
+
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery([CacheKeys.Campaigns, slug], () =>
+  await queryClient.prefetchQuery([CacheKeys.Campaign, slug], () =>
     getCampaign(slug)
   );
 
