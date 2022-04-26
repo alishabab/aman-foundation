@@ -5,13 +5,7 @@ import {
   faTwitter,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import {
-  faShare,
-  faCopy,
-  faTimes,
-  faAngleDown,
-  faArrowDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faShare, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { NextPage } from "next";
 import { CSSProperties, useState } from "react";
 import { Button } from "./button";
@@ -38,7 +32,7 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
       </button> */}
       <div className="flex items-center space-x-6">
         <div className="flex flex-col justify-center items-center text-primary-600">
-          <FontAwesomeIcon icon={faShare} size="2x" />
+          <FontAwesomeIcon icon={faShare} className="text-lg" />
           <span className="text-sm font-bold">SHARE</span>
         </div>
         <div className="flex items-center space-x-3 text-secondary-600">

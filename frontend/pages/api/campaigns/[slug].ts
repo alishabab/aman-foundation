@@ -56,7 +56,7 @@ const editCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const result = await campaigns.updateOne(
       { slug },
-      { $set: { ...req.body } }
+      { $set: { ...req.body, updatedAt: new Date() } }
     );
     if (result.matchedCount === 0) {
       return res

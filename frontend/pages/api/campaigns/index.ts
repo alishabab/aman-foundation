@@ -5,7 +5,7 @@ import runMiddleware from "utils/runMiddleware";
 
 const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await runMiddleware(req, res);
+    const { session } = await runMiddleware(req, res);
     const { db } = await connectToDb();
     const { title, description, image, isHighlighted = false } = req.body;
     if (!title || !description || !image) {
@@ -22,6 +22,13 @@ const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
       description,
       image,
       isHighlighted,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      addedBy: {
+        name: session?.user?.name,
+        email: session?.user?.email,
+        image: session?.user?.image,
+      },
     });
 
     return res

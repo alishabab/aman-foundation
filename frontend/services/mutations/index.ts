@@ -27,12 +27,19 @@ export const useDeleteImageMutation = () => {
   return useMutation(deleteImage);
 };
 
-const addCampaign = async (campaign: Omit<Campaign, "id" | "slug">) => {
+const addCampaign = async (
+  campaign: Omit<
+    Campaign,
+    "id" | "slug" | "createdAt" | "updatedAt" | "addedBy"
+  >
+) => {
   const res = await api.post<{ success: boolean }>("/campaigns", campaign);
   return res.data.success;
 };
 
-const editCampaign = async (campaign: Campaign) => {
+const editCampaign = async (
+  campaign: Omit<Campaign, "createdAt" | "updatedAt" | "addedBy">
+) => {
   const res = await api.put<{ success: boolean }>(
     `/campaigns/${campaign.slug}`,
     campaign

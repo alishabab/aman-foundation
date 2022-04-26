@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { config } from "config";
 
-const administrators = ["shababsaifi@gmail.com"];
+const administrators = ["shababsaifi@gmail.com", "suhailghori@gmail.com"];
 
 export default NextAuth({
   // Configure one or more authentication providers

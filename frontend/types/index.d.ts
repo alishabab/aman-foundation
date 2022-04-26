@@ -8,4 +8,13 @@ export type Campaign = {
     url: string;
   };
   isHighlighted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  addedBy: User;
+};
+
+export type User = {
+  image?: string | null;
+  name?: string | null;
+  email?: string | null;
 };

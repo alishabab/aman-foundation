@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useState } from "react";
-import { dehydrate, QueryClient, useQuery } from "react-query";
+import { dehydrate, QueryClient } from "react-query";
 import { useSession } from "next-auth/react";
 import { Button, Modal, AddCampaign } from "components";
 import { getCampaigns, useGetCampaignsQuery } from "services/queries";
@@ -12,6 +12,7 @@ import {
   useDeleteImageMutation,
 } from "services/mutations";
 import { CampaignCard } from "components/campaignCard";
+import { CacheKeys } from "services/cacheKeys";
 
 const Campaigns = () => {
   const [isAddingCampaign, setIsAddingCampaign] = useState(false);
@@ -123,10 +124,10 @@ const Campaigns = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery("campaigns", getCampaigns);
+  await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
 
   return {
     props: {

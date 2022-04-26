@@ -52,8 +52,12 @@ export const CampaignCard: NextPage<Props> = ({
               style={{ backgroundImage: `url(${image.url})` }}
               className={`h-[30vh] bg-cover rounded-md`}></div>
             <div className="py-2 px-4">
-              <Heading>{title}</Heading>
-              <p>{description}</p>
+              <h2 className="text-secondary-600 font-bold text-lg">{title}</h2>
+              <p className="text-gray-900">
+                {description.length > 40
+                  ? description.substring(0, 40) + "..."
+                  : description}
+              </p>
               <Button
                 rounded
                 onClick={(e) => e.preventDefault()}

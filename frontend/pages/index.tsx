@@ -16,9 +16,10 @@ import { useGetCampaignsQuery } from "services/queries";
 
 export default function Hero() {
   const { data: campaigns } = useGetCampaignsQuery();
-  const highlitedCampaigns = campaigns?.filter(
-    (campaign) => campaign.isHighlighted
-  );
+  const highlitedCampaigns = campaigns
+    ?.filter((campaign) => campaign.isHighlighted)
+    .slice(0, 4);
+
   const autoplay = useRef(
     Autoplay(
       { delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true },

@@ -16,7 +16,10 @@ interface IProps {
   cb: () => void;
 }
 
-type InitialState = Campaign & { file: null | File; localImageUrl: string };
+type InitialState = Omit<Campaign, "createdAt" | "updatedAt" | "addedBy"> & {
+  file: null | File;
+  localImageUrl: string;
+};
 
 const initialState: InitialState = {
   id: "",

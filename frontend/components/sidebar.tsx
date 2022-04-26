@@ -2,15 +2,10 @@ import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn, signOut } from "next-auth/react";
+import { User } from "types";
 interface ISidebarLink {
   title: string;
   href: string;
-}
-
-interface ILoggedInUserInfo {
-  image?: string | null;
-  name?: string | null;
-  email?: string | null;
 }
 
 const SidebarLink: NextPage<ISidebarLink> = ({ title, href }) => {
@@ -23,7 +18,7 @@ const SidebarLink: NextPage<ISidebarLink> = ({ title, href }) => {
   );
 };
 
-const LoggedInUserInfo = ({ image, name, email }: ILoggedInUserInfo) => {
+const LoggedInUserInfo = ({ image, name, email }: User) => {
   const src = image || "/assets/images/avatar.png";
   return (
     <div className="flex items-center px-8 py-4 border-b-2 border-gray-200 ">
@@ -44,7 +39,7 @@ const LoggedInUserInfo = ({ image, name, email }: ILoggedInUserInfo) => {
   );
 };
 
-export const Sidebar: NextPage<{ user?: ILoggedInUserInfo }> = ({ user }) => {
+export const Sidebar: NextPage<{ user?: User }> = ({ user }) => {
   return (
     <div className="w-full h-full bg-gray-100 shadow-md">
       {user && <LoggedInUserInfo {...user} />}

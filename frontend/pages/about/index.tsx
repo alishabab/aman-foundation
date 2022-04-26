@@ -1,4 +1,3 @@
-import { ShareBar } from "components";
 import { Heading } from "components/heading";
 import Image from "next/image";
 const About = () => {
@@ -63,7 +62,6 @@ const About = () => {
           </p>
         </div>
       </div>
-      <ShareBar className="sticky bottom-0" />
     </>
   );
 };
