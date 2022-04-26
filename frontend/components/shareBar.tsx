@@ -24,7 +24,7 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
   const [isShown, setIsShown] = useState(true);
   return (
     <div
-      className={`relative h-16 bg-white border-t border-gray-100 flex items-center space-x-8  py-2 px-4 ${
+      className={`relative h-16 bg-white border-t border-gray-100 flex items-center justify-between py-2 px-4 ${
         isShown ? "block" : "hidden"
       }  ${className}`}
       style={style}>
@@ -37,9 +37,9 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
         <FontAwesomeIcon icon={faTimes} className="text-2xl" />
       </button> */}
       <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2 text-primary-600">
-          <h4 className="font-bold text-2xl">Share</h4>
+        <div className="flex flex-col justify-center items-center text-primary-600">
           <FontAwesomeIcon icon={faShare} size="2x" />
+          <span className="text-sm font-bold">SHARE</span>
         </div>
         <div className="flex items-center space-x-3 text-secondary-600">
           <button>
@@ -59,7 +59,9 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
           </button>
         </div>
       </div>
-      <Button rounded>Support</Button>
+      <Button rounded className="w-3/12">
+        Support
+      </Button>
     </div>
   );
 };
