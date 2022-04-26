@@ -11,6 +11,7 @@ import {
 import { Campaign } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { isValidImage } from "utils/isValidImage";
 interface IProps {
   campaign?: Campaign;
   cb: () => void;
@@ -66,7 +67,23 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
   const { mutateAsync: deleteImage } = useDeleteImageMutation();
   const { mutateAsync: editCampaign } = useEditCampaignMutation();
 
+  const validateFields = () => {
+    const { title, description, file } = state;
+    if (!campaign && !file) {
+      return false;
+    }
+
+    if (!title.trim().length || !description.trim().length) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
+    if (!validateFields()) {
+      alert("Please fill all the fields");
+      return;
+    }
     setIsLoading(true);
     const { id, slug, title, description, image, isHighlighted, file } = state;
 
@@ -100,8 +117,6 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
       setIsLoading(false);
       cb();
     } catch (error) {
-      // @ts-ignore
-      alert(error.message);
       setIsLoading(false);
     }
   };
@@ -109,6 +124,11 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
   const onFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const isValid = await isValidImage(file);
+      if (!isValid) {
+        alert("Invalid image file");
+        return;
+      }
       const objectUrl = URL.createObjectURL(file);
       setState((prevState) => ({
         ...prevState,
@@ -123,44 +143,61 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
       <Heading className="text-center">
         {campaign ? "Edit Campaign" : "Add New Campaign"}{" "}
       </Heading>
-      <Label>Title</Label>
-      <Input type="text" name="title" value={state.title} onChange={onChange} />
-      <Label>Description</Label>
-      <Textarea
-        rows={6}
-        name="description"
-        value={state.description}
-        onChange={onChange}
-      />
-      <Label>Image Upload</Label>
-      <div className="flex items-center text-secondary-600">
-        <Input type="file" className="w-3/6 mr-8" onChange={onFileChange} />
-        <Image
-          width={100}
-          height={100}
-          blurDataURL={state.localImageUrl}
-          src={state.localImageUrl}
-          alt="avatar"
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}>
+        <Label>Title</Label>
+        <Input
+          type="text"
+          name="title"
+          value={state.title}
+          onChange={onChange}
         />
-      </div>
-      <div className="flex items-center space-x-8">
-        <Label>Highlight</Label>
-        <button
-          onClick={() => {
-            setState((prevState) => ({
-              ...prevState,
-              isHighlighted: !prevState.isHighlighted,
-            }));
-          }}
-          className={`${
-            state.isHighlighted ? "text-primary-600" : "text-gray-600"
-          }`}>
-          <FontAwesomeIcon icon={faStar} size="2x" />
-        </button>
-      </div>
-      <Button className="mt-2" onClick={handleSubmit} loading={isLoading}>
-        Submit
-      </Button>
+        <Label>Description</Label>
+        <Textarea
+          rows={6}
+          name="description"
+          value={state.description}
+          onChange={onChange}
+        />
+        <Label>Image Upload</Label>
+        <div className="flex items-center text-secondary-600">
+          <Input
+            type="file"
+            accept="image/png, image/jpg, image/jpeg"
+            className="w-3/6 mr-8"
+            onChange={onFileChange}
+          />
+          <Image
+            width={100}
+            height={100}
+            blurDataURL={state.localImageUrl}
+            src={state.localImageUrl}
+            alt="avatar"
+          />
+        </div>
+        <div className="flex items-center space-x-8">
+          <Label>Highlight</Label>
+          <button
+            type="button"
+            onClick={() => {
+              setState((prevState) => ({
+                ...prevState,
+                isHighlighted: !prevState.isHighlighted,
+              }));
+            }}
+            className={`${
+              state.isHighlighted ? "text-primary-600" : "text-gray-600"
+            }`}>
+            <FontAwesomeIcon icon={faStar} size="2x" />
+          </button>
+        </div>
+        <Button className="mt-2" type="submit" loading={isLoading}>
+          Submit
+        </Button>
+      </form>
     </div>
   );
 };
