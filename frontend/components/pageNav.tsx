@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { hideStr } from "utils/hideStr";
+import Link from "next/link";
 
 interface Props {
   className?: string;
@@ -24,12 +25,25 @@ export const PageNav = ({ className, style }: Props) => {
     <div
       className={`text-secondary-600 flex items-center ${className}`}
       style={style}>
-      <FontAwesomeIcon icon={faHome} />
-      {pathnames.map((pathname) => (
-        <div key={pathname} className="flex items-center">
-          <FontAwesomeIcon icon={faAngleRight} className="text-sm ml-2" />
-          <span className="text-sm ml-2 font-bold">{hideStr(pathname)}</span>
-        </div>
+      <Link href="/" passHref>
+        <a>
+          <FontAwesomeIcon icon={faHome} />
+        </a>
+      </Link>
+      {pathnames.map((pathname, index) => (
+        <Link
+          key={pathname}
+          passHref
+          href={`/${pathnames.slice(0, index + 1).join("/")}`}>
+          <a>
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faAngleRight} className="text-sm ml-2" />
+              <span className="text-sm ml-2 font-bold">
+                {hideStr(pathname)}
+              </span>
+            </div>
+          </a>
+        </Link>
       ))}
     </div>
   );
