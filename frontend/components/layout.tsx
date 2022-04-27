@@ -4,7 +4,7 @@ import { Footer } from "./footer";
 import { NextPage } from "next";
 import { Alert } from "./alert";
 import { useAlert } from "context/AlertContext";
-
+import { PageNav } from "./pageNav";
 export const Layout: NextPage = ({ children }) => {
   const { type } = useAlert();
   return (
@@ -20,7 +20,10 @@ export const Layout: NextPage = ({ children }) => {
           <Alert />
         </div>
       )}
-      <main className="mt-16">{children}</main>
+      <main className="mt-16">
+        <PageNav className="pl-4 pt-4" />
+        {children}
+      </main>
       <Footer />
     </>
   );

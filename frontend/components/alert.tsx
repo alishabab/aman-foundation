@@ -6,9 +6,11 @@ export const Alert = () => {
   const { type, message, setAlert } = useAlert();
 
   useEffect(() => {
-    setTimeout(() => {
-      setAlert({ type: "none", message: "" });
-    }, 3000);
+    if (type !== "none") {
+      setTimeout(() => {
+        setAlert({ type: "none", message: "" });
+      }, 3000);
+    }
   }, [type, setAlert]);
 
   const Success = () => (
