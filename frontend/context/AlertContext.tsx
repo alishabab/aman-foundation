@@ -35,7 +35,7 @@ export const AlertProvider = ({ children }: AlerProviderProps) => {
 export const useAlert = () => {
   const context = useContext(AlertContext);
   if (context === undefined) {
-    throw new Error("useCount must be used within a AlertProvider");
+    throw new Error("useAlert must be used within a AlertProvider");
   }
   const { alert, setAlert } = context;
   const { type, message } = alert;

@@ -5,11 +5,6 @@ import runMiddleware from "utils/runMiddleware";
 const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await runMiddleware(req, res);
-    if (req.method !== "POST") {
-      return res
-        .status(400)
-        .json({ success: false, message: "Method not allowed" });
-    }
     const { slug: assetId } = req.query;
 
     if (!assetId) {
@@ -27,4 +22,15 @@ const removeFile = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default removeFile;
+const upload = async (req: NextApiRequest, res: NextApiResponse) => {
+  switch (req.method) {
+    case "POST":
+      return removeFile(req, res);
+    default:
+      return res
+        .status(400)
+        .json({ success: false, message: "Method not allowed" });
+  }
+};
+
+export default upload;

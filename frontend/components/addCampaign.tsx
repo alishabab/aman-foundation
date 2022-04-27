@@ -10,7 +10,12 @@ import {
 } from "services/mutations";
 import { Campaign } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStar,
+  faCheck,
+  faCheckSquare,
+  faSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "context/AlertContext";
 import { isValidImage } from "utils/isValidImage";
 interface IProps {
@@ -24,7 +29,6 @@ type InitialState = Omit<Campaign, "createdAt" | "updatedAt" | "addedBy"> & {
 };
 
 const initialState: InitialState = {
-  id: "",
   title: "",
   description: "",
   slug: "",
@@ -35,6 +39,10 @@ const initialState: InitialState = {
   },
   file: null,
   isHighlighted: false,
+  isCompleted: false,
+  startedAt: new Date().toISOString().split("T")[0],
+  completedAt: undefined,
+  noOfBenificiaries: 0,
 };
 
 export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
@@ -49,6 +57,8 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
         }
       : initialState
   );
+
+  console.log({ state });
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -70,54 +80,88 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
   const { mutateAsync: editCampaign } = useEditCampaignMutation();
 
   const validateFields = () => {
-    const { title, description, file } = state;
-    if (!campaign && !file) {
-      return false;
-    }
+    const { title, description, file, isCompleted, completedAt } = state;
+    let message: undefined | string;
 
     if (!title.trim().length || !description.trim().length) {
-      return false;
+      message = "Fill required fields.";
+      return message;
     }
-    return true;
+
+    if (!campaign && !file) {
+      message = "Please select image";
+      return message;
+    }
+
+    if (isCompleted && !completedAt) {
+      message = "Please select completed date";
+      return message;
+    }
+
+    return message;
   };
 
   const handleSubmit = async () => {
-    if (!validateFields()) {
-      setAlert({
-        type: "danger",
-        message: "Fill required fields.",
-      });
+    const message = validateFields();
+    if (message) {
+      setAlert({ type: "danger", message });
       return;
     }
     setIsLoading(true);
-    const { id, slug, title, description, image, isHighlighted, file } = state;
+    const {
+      slug,
+      title,
+      description,
+      image,
+      isHighlighted,
+      isCompleted,
+      startedAt,
+      completedAt,
+      noOfBenificiaries,
+      file,
+    } = state;
 
     try {
       if (campaign && !file) {
         await editCampaign({
-          id,
           title,
           description,
           slug,
           image,
           isHighlighted,
+          isCompleted,
+          noOfBenificiaries,
+          startedAt,
+          completedAt,
         });
       } else if (campaign && file) {
         await deleteImage(image.id);
         const base64 = await toBase64(file);
         const newImage = await uploadImage(base64);
         await editCampaign({
-          id,
           title,
           description,
           slug,
           image: newImage,
           isHighlighted,
+          isCompleted,
+          noOfBenificiaries,
+          startedAt,
+          completedAt,
         });
       } else if (file) {
         const base64 = await toBase64(file);
         const image = await uploadImage(base64);
-        await addCampaign({ title, description, image, isHighlighted });
+        await addCampaign({
+          title,
+          description,
+          image,
+          isHighlighted,
+          isCompleted,
+          noOfBenificiaries,
+          startedAt,
+          completedAt,
+        });
       }
       setIsLoading(false);
       cb();
@@ -171,6 +215,13 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
           value={state.description}
           onChange={onChange}
         />
+        <Label>Benificeries so far</Label>
+        <Input
+          type="number"
+          name="noOfBenificiaries"
+          value={state.noOfBenificiaries}
+          onChange={onChange}
+        />
         <Label>Image Upload</Label>
         <div className="flex items-center text-secondary-600">
           <Input
@@ -187,22 +238,68 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
             alt="avatar"
           />
         </div>
-        <div className="flex items-center space-x-8">
-          <Label>Highlight</Label>
-          <button
-            type="button"
-            onClick={() => {
-              setState((prevState) => ({
-                ...prevState,
-                isHighlighted: !prevState.isHighlighted,
-              }));
-            }}
-            className={`${
-              state.isHighlighted ? "text-primary-600" : "text-gray-600"
-            }`}>
-            <FontAwesomeIcon icon={faStar} size="2x" />
-          </button>
+
+        <div>
+          <Label>Start Date</Label>
+          <Input
+            type="date"
+            name="startedAt"
+            // @ts-ignore
+            value={state.startedAt}
+            onChange={onChange}
+          />
         </div>
+        <div className="flex space-x-4 my-4">
+          <div className="flex items-center space-x-2">
+            <Label>Highlight</Label>
+            <button
+              type="button"
+              onClick={() => {
+                setState((prevState) => ({
+                  ...prevState,
+                  isHighlighted: !prevState.isHighlighted,
+                }));
+              }}
+              className={`${
+                state.isHighlighted ? "text-primary-600" : "text-gray-600"
+              }`}>
+              <FontAwesomeIcon icon={faStar} size="2x" />
+            </button>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Label>Mark Completed</Label>
+            <button
+              type="button"
+              onClick={() => {
+                setState((prevState) => ({
+                  ...prevState,
+                  isCompleted: !prevState.isCompleted,
+                }));
+              }}
+              className={`${
+                state.isCompleted ? "text-primary-600" : "text-gray-600"
+              }`}>
+              <FontAwesomeIcon
+                icon={state.isCompleted ? faCheckSquare : faSquare}
+                size="2x"
+              />
+            </button>
+          </div>
+        </div>
+
+        {state.isCompleted && (
+          <div>
+            <Label>End Date</Label>
+            <Input
+              type="date"
+              name="completedAt"
+              // @ts-ignore
+              value={state.completedAt}
+              onChange={onChange}
+            />
+          </div>
+        )}
+
         <Button className="mt-2" type="submit" loading={isLoading}>
           Submit
         </Button>

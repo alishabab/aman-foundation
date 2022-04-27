@@ -7,7 +7,16 @@ const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { session } = await runMiddleware(req, res);
     const { db } = await connectToDb();
-    const { title, description, image, isHighlighted = false } = req.body;
+    const {
+      title,
+      description,
+      image,
+      isHighlighted = false,
+      isCompleted = false,
+      startedAt,
+      completedAt,
+      noOfBenificiaries,
+    } = req.body;
     if (!title || !description || !image) {
       return res
         .status(400)
@@ -16,6 +25,7 @@ const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const campaigns = db.collection("campaigns");
     const slug = generateSlug(title);
+    const isUpComing = new Date(startedAt) > new Date();
     const result = await campaigns.insertOne({
       slug,
       title,
@@ -29,6 +39,11 @@ const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
         email: session?.user?.email,
         image: session?.user?.image,
       },
+      isCompleted,
+      isUpComing,
+      startedAt,
+      completedAt,
+      noOfBenificiaries,
     });
 
     return res

@@ -1,5 +1,4 @@
 export type Campaign = {
-  id: string;
   slug: string;
   title: string;
   description: string;
@@ -7,9 +6,14 @@ export type Campaign = {
     id: string;
     url: string;
   };
+  noOfBenificiaries?: number;
   isHighlighted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  isCompleted: boolean;
+  isUpComing?: boolean;
+  startedAt: Date | string;
+  completedAt?: Date | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   addedBy: User;
 };
 

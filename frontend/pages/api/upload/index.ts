@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { cloudinary } from "lib/cloudinary";
-import { nanoid } from "nanoid";
 import runMiddleware from "utils/runMiddleware";
 
 export const config = {
@@ -12,11 +11,6 @@ export const config = {
 const uploadFormFiles = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await runMiddleware(req, res);
-    if (req.method !== "POST") {
-      return res
-        .status(400)
-        .json({ success: false, message: "Method not allowed" });
-    }
     const fileStr = req.body.data;
     const result = await cloudinary.uploader.upload(fileStr);
     return res.status(200).json({
@@ -30,4 +24,15 @@ const uploadFormFiles = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default uploadFormFiles;
+const uploads = async (req: NextApiRequest, res: NextApiResponse) => {
+  switch (req.method) {
+    case "POST":
+      return uploadFormFiles(req, res);
+    default:
+      return res
+        .status(400)
+        .json({ success: false, message: "Method not allowed" });
+  }
+};
+
+export default uploads;

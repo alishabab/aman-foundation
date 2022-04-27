@@ -54,9 +54,10 @@ const editCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!slug) {
       return res.status(400).json({ success: false, message: "Missing slug" });
     }
+    const isUpComing = new Date(req.body?.startedAt) > new Date();
     const result = await campaigns.updateOne(
       { slug },
-      { $set: { ...req.body, updatedAt: new Date() } }
+      { $set: { ...req.body, updatedAt: new Date(), isUpComing } }
     );
     if (result.matchedCount === 0) {
       return res
