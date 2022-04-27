@@ -33,18 +33,20 @@ const Campaign = () => {
               {campaign?.title}
             </h2>
             <div className="mb-2 flex justify-between items-center">
-              <h4 className="text-secondary-600 font-bold text-lg">
-                Beneficiaries so far:{" "}
-                <i>
-                  <b>
-                    <span className="text-primary-600">
-                      {campaign.noOfBenificiaries}
-                    </span>
-                  </b>
-                </i>
-              </h4>
+              {!campaign.isUpComing && (
+                <h4 className="text-secondary-600 font-bold text-lg">
+                  Beneficiaries so far:{" "}
+                  <i>
+                    <b>
+                      <span className="text-primary-600">
+                        {campaign.noOfBenificiaries}
+                      </span>
+                    </b>
+                  </i>
+                </h4>
+              )}
               <span
-                className={`flex items-center ${
+                className={`flex ml-auto items-center ${
                   campaign.isCompleted
                     ? "bg-secondary-600"
                     : campaign.isUpComing

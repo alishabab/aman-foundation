@@ -16,7 +16,7 @@ interface Props {
 }
 export const ShareBar: NextPage<Props> = ({ className, style }) => {
   const [isShown, setIsShown] = useState(true);
-
+  const url = window?.location.href;
   return (
     <div
       className={`relative h-16 bg-white border-t border-gray-100 flex items-center justify-between py-2 px-4 ${
@@ -37,9 +37,13 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
           <span className="text-sm font-bold">SHARE</span>
         </div>
         <div className="flex items-center space-x-3 text-secondary-600">
-          <button>
+          <a
+            href={`whatsapp://send?text=Support this campaign by Aman Foundation. Visit ${url}`}
+            data-action="share/whatsapp/share"
+            target="_blank"
+            rel="noreferrer">
             <FontAwesomeIcon icon={faWhatsapp} size="2x" />
-          </button>
+          </a>
           <button>
             <FontAwesomeIcon icon={faFacebookSquare} size="2x" />
           </button>
