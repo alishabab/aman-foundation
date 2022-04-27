@@ -28,9 +28,7 @@ export const PageNav = ({ className, style }: Props) => {
       {pathnames.map((pathname) => (
         <div key={pathname} className="flex items-center">
           <FontAwesomeIcon icon={faAngleRight} className="text-sm ml-2" />
-          <span className="text-sm ml-2 pb-1 font-bold">
-            {hideStr(pathname)}
-          </span>
+          <span className="text-sm ml-2 font-bold">{hideStr(pathname)}</span>
         </div>
       ))}
     </div>
