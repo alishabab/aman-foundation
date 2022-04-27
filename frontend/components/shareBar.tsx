@@ -1,10 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebookSquare,
-  faWhatsapp,
-  faTwitter,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
+import { SocialMediaType } from "types";
+import { SocialIcons } from "utils/socialIcons";
 import { faShare, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { NextPage } from "next";
 import { CSSProperties, useState } from "react";
@@ -15,13 +11,6 @@ interface Props {
   className?: string;
   style?: CSSProperties;
 }
-
-type SocialMediaType =
-  | "facebook"
-  | "twitter"
-  | "instagram"
-  | "whatsapp"
-  | "other";
 
 export const ShareBar: NextPage<Props> = ({ className, style }) => {
   const [isShown, setIsShown] = useState(true);
@@ -85,16 +74,16 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
         </div>
         <div className="flex items-center space-x-3 text-secondary-600">
           <button onClick={() => onClick("whatsapp")}>
-            <FontAwesomeIcon icon={faWhatsapp} size="2x" />
+            <FontAwesomeIcon icon={SocialIcons.whatsapp} size="2x" />
           </button>
           <button onClick={() => onClick("facebook")}>
-            <FontAwesomeIcon icon={faFacebookSquare} size="2x" />
+            <FontAwesomeIcon icon={SocialIcons.facebook} size="2x" />
           </button>
           {/* <button>
-            <FontAwesomeIcon icon={faInstagram} size="2x" />
+            <FontAwesomeIcon icon={SocialIcons.instagram} size="2x" />
           </button> */}
           <button onClick={() => onClick("twitter")}>
-            <FontAwesomeIcon icon={faTwitter} size="2x" />
+            <FontAwesomeIcon icon={SocialIcons.twitter} size="2x" />
           </button>
           <button onClick={() => onClick("other")}>
             <FontAwesomeIcon icon={faCopy} size="2x" />

@@ -38,8 +38,16 @@ export type About = {
   image: Image;
 };
 
+export type SocialMediaType =
+  | "facebook"
+  | "twitter"
+  | "instagram"
+  | "whatsapp"
+  | "linkedin"
+  | "other";
+
 export type SocialLink = {
-  name: string;
+  name: SocialMediaType;
   url: string;
 };
 

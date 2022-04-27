@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import {
   getCampaigns,
+  getOrganization,
   useGetCampaignsQuery,
   useGetQODQuery,
 } from "services/queries";
@@ -260,6 +261,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
+  await queryClient.prefetchQuery(CacheKeys.Organization, getOrganization);
 
   return {
     props: {

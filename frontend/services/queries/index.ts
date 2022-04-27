@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { CacheKeys } from "services/cacheKeys";
 import api from "services/api";
-import { Campaign } from "types";
+import { Campaign, Organization } from "types";
 export const getCampaigns = async () => {
   const res = await api.get<{ data: Campaign[] }>("/campaigns");
   return res.data.data;
@@ -12,12 +12,21 @@ export const getCampaign = async (slug: string) => {
   return res.data.data;
 };
 
+export const getOrganization = async () => {
+  const res = await api.get<{ data: Organization }>("/organization");
+  return res.data.data;
+};
+
 export const useGetCampaignsQuery = () => {
   return useQuery(CacheKeys.Campaigns, getCampaigns);
 };
 
 export const useGetCampaignQuery = ({ slug }: { slug: string }) => {
   return useQuery([CacheKeys.Campaign, slug], () => getCampaign(slug));
+};
+
+export const useGetOrganizationQuery = () => {
+  return useQuery(CacheKeys.Organization, getOrganization);
 };
 
 export const getQuoteOfTheDay = async () => {
