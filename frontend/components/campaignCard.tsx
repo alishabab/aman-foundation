@@ -19,7 +19,7 @@ export const CampaignCard: NextPage<Props> = ({
   onClickDelete,
 }) => {
   const session = useSession();
-  const { slug, id, title, description, image, isHighlighted } = campaign;
+  const { slug, title, description, image, isHighlighted } = campaign;
   return (
     <div key={slug} className="mb-8 relative">
       {/* @ts-ignore */}
