@@ -29,7 +29,7 @@ const Campaign = () => {
       <div className="px-2 py-4">
         {campaign && (
           <>
-            <h2 className="font-extrabold text-3xl text-gray-600 mb-2">
+            <h2 className="font-extrabold text-3xl text-secondary-600 mb-2">
               {campaign?.title}
             </h2>
             <div className="mb-2 flex justify-between items-center">
