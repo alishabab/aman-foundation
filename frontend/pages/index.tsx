@@ -3,7 +3,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { getCampaigns, useGetCampaignsQuery } from "services/queries";
+import {
+  getCampaigns,
+  useGetCampaignsQuery,
+  useGetQODQuery,
+} from "services/queries";
 import { CacheKeys } from "services/cacheKeys";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
@@ -19,6 +23,7 @@ import { Heading } from "components/heading";
 
 export default function Hero() {
   const { data: campaigns } = useGetCampaignsQuery();
+  const { data: qod } = useGetQODQuery();
 
   const highlitedCampaigns = campaigns?.filter(
     (campaign) => campaign.isHighlighted
@@ -195,6 +200,18 @@ export default function Hero() {
           ))}
         </div>
       </section>
+
+      {qod?.quote && (
+        <section className="mt-8 px-4 flex flex-col space-y-2">
+          <h1 className="text-center text-gray-600 font-semibold">
+            Quote of the Day
+          </h1>
+          <h2 className="text-center text-2xl font-bold italic text-gray-600">
+            <q cite={qod.permalink}>{qod?.quote}</q>
+          </h2>
+          <span className="ml-auto text-gray-600">~ {qod?.author}</span>
+        </section>
+      )}
 
       <section className="mt-8 px-2">
         <div className="flex flex-col">

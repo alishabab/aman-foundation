@@ -19,3 +19,13 @@ export const useGetCampaignsQuery = () => {
 export const useGetCampaignQuery = ({ slug }: { slug: string }) => {
   return useQuery([CacheKeys.Campaign, slug], () => getCampaign(slug));
 };
+
+export const getQuoteOfTheDay = async () => {
+  const res = await fetch("https://quotes.rest/qod?language=en");
+  const data = await res.json();
+  return data.contents.quotes[0];
+};
+
+export const useGetQODQuery = () => {
+  return useQuery(CacheKeys.QuoteOfTheDay, getQuoteOfTheDay);
+};
