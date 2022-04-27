@@ -44,6 +44,7 @@ export type SocialLink = {
 };
 
 export type Organization = {
+  slug: string;
   name: string;
   logo: Image;
   cover?: Image;

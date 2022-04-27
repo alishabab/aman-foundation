@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectToDb from "utils/connectToDb";
+import connectToDb from "lib/connectToDb";
 import { generateSlug } from "utils/generateSlug";
-import runMiddleware from "utils/runMiddleware";
+import runMiddleware from "lib/runMiddleware";
 
 const addCampaing = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectToDb from "utils/connectToDb";
-import runMiddleware from "utils/runMiddleware";
+import connectToDb from "lib/connectToDb";
+import runMiddleware from "lib/runMiddleware";
 
 const findCampaign = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { cloudinary } from "lib/cloudinary";
-import runMiddleware from "utils/runMiddleware";
+import runMiddleware from "lib/runMiddleware";
 
 export const config = {
   api: {
