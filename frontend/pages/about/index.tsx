@@ -26,7 +26,7 @@ const About = () => {
   const { mutateAsync: deleteImage } = useDeleteImageMutation();
   const { mutateAsync: updateOrganization } = useEditOrganizationMutation();
 
-  const handleDelete = async (about: About) => {
+  const handleDelete = async (about: About | undefined) => {
     try {
       setIsDeleting(true);
       if (deletedAbout?.image) await deleteImage(deletedAbout.image.id);
@@ -91,7 +91,9 @@ const About = () => {
             loading={isDeleting}
             secondary
             className="w-32"
-            onClick={() => {}}>
+            onClick={() => {
+              handleDelete(deletedAbout);
+            }}>
             Yes
           </Button>
           <Button
