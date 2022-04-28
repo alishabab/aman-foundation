@@ -23,7 +23,7 @@ export const PageNav = ({ className, style }: Props) => {
 
   return (
     <div
-      className={`text-secondary-600 flex items-center ${className}`}
+      className={`text-gray-600 flex items-center ${className}`}
       style={style}>
       <Link href="/" passHref>
         <a>
