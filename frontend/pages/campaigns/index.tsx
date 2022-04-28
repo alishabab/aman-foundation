@@ -130,16 +130,18 @@ const Campaigns = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
+// Temporary commented to see performance
 
-  await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const queryClient = new QueryClient();
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+//   await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// };
 
 export default Campaigns;
