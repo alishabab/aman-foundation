@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Button, Heading } from "components";
+import { Button } from "components";
 import { Campaign } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";

@@ -26,7 +26,7 @@ const Campaign = () => {
         <meta property="og:description" content={campaign?.description} />
         <meta property="og:image" content={campaign?.image.url} />
       </Head>
-      <div className="px-2 py-4">
+      <div className="px-2">
         {campaign && (
           <>
             <h2 className="font-extrabold text-3xl text-gray-600 mb-2">
@@ -64,7 +64,7 @@ const Campaign = () => {
             <Image
               src={campaign.image.url}
               width="100%"
-              height="60%"
+              height="100%"
               layout="responsive"
               placeholder="blur"
               alt={campaign.title}

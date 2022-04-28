@@ -11,3 +11,5 @@ export * from "./heading";
 export * from "./addCampaign";
 export * from "./shareBar";
 export * from "./alert";
+export * from "./select";
+export * from "./editSocial";

@@ -21,7 +21,7 @@ export const Layout: NextPage = ({ children }) => {
         </div>
       )}
       <main className="mt-16">
-        <PageNav className="pl-4 pt-4" />
+        <PageNav className="pl-4 py-4" />
         {children}
       </main>
       <Footer />

@@ -57,7 +57,7 @@ const Campaigns = () => {
   };
 
   return (
-    <div className="px-2 py-4">
+    <div className="px-2">
       {isAddingCampaign && (
         <Modal
           isOpen={isAddingCampaign}
@@ -108,7 +108,7 @@ const Campaigns = () => {
       {session?.data?.isAdmin && (
         <Button
           secondary
-          className="mb-2 w-64"
+          className="mb-2"
           onClick={() => setIsAddingCampaign(true)}>
           Add Campaign
         </Button>

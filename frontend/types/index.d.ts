@@ -33,9 +33,10 @@ export type Achievement = {
 };
 
 export type About = {
+  id: string;
   title?: string;
   description?: string;
-  image: Image;
+  image?: Image | null;
 };
 
 export type SocialMediaType =
@@ -44,6 +45,7 @@ export type SocialMediaType =
   | "instagram"
   | "whatsapp"
   | "linkedin"
+  | "youtube"
   | "other";
 
 export type SocialLink = {

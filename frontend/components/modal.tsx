@@ -17,6 +17,8 @@ export const Modal: NextPage<IProps> = ({ children, isOpen, onClick }) => {
     // }
   }, [hideScrollbar]);
 
+  if (!isOpen) return null;
+
   return (
     <div
       id="modal"

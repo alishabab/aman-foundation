@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { CacheKeys } from "services/cacheKeys";
 import api from "services/api";
-import { Campaign } from "types";
+import { Campaign, Image, Achievement, About, SocialLink } from "types";
 const uploadImage = async (file: string | ArrayBuffer | null) => {
   const res = await api.post<{ image: { url: string; id: string } }>(
     "/upload",
@@ -52,6 +52,22 @@ const deleteCampaign = async (slug: string) => {
   return res.data.success;
 };
 
+type EditOrganizationOptions = {
+  name?: string;
+  logo?: Image;
+  cover?: Image;
+  acheivements?: Achievement[];
+  about?: About[];
+  socialLinks?: SocialLink[];
+};
+
+const editOrganization = async (options: EditOrganizationOptions) => {
+  const res = await api.put<{ success: boolean }>("/organization", {
+    ...options,
+  });
+  return res.data.success;
+};
+
 export const useAddCampaignMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(addCampaign, {
@@ -75,6 +91,15 @@ export const useDeleteCampaignMutation = () => {
   return useMutation(deleteCampaign, {
     onSuccess: () => {
       queryClient.invalidateQueries(CacheKeys.Campaigns);
+    },
+  });
+};
+
+export const useEditOrganizationMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(editOrganization, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Organization);
     },
   });
 };

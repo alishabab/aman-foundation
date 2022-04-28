@@ -12,12 +12,12 @@ import { Campaign } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
-  faCheck,
   faCheckSquare,
   faSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAlert } from "context/AlertContext";
 import { isValidImage } from "utils/isValidImage";
+import { toBase64 } from "utils/toBase64";
 interface IProps {
   campaign?: Campaign;
   cb: () => void;
@@ -58,20 +58,9 @@ export const AddCampaign: NextPage<IProps> = ({ campaign, cb }) => {
       : initialState
   );
 
-  console.log({ state });
-
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const toBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   };
 
   const { mutateAsync: uploadImage } = useUploadImageMutation();
