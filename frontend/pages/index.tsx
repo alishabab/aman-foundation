@@ -10,7 +10,7 @@ import {
   useGetQODQuery,
 } from "services/queries";
 import { CacheKeys } from "services/cacheKeys";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   faBowlRice,
@@ -257,7 +257,7 @@ export default function Hero() {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
