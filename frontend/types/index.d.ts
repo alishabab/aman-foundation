@@ -19,6 +19,17 @@ export type Campaign = {
   addedBy: User;
 };
 
+export type Story = {
+  slug: string;
+  title: string;
+  description: string;
+  image: Image;
+  isImpact: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  addedBy: User;
+};
+
 export type User = {
   image?: string | null;
   name?: string | null;

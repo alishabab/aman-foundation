@@ -26,7 +26,7 @@ export const PageNav = ({ className, style }: Props) => {
       className={`text-gray-600 flex items-center ${className}`}
       style={style}>
       <Link href="/" passHref>
-        <a>
+        <a className="hover:text-secondary-600">
           <FontAwesomeIcon icon={faHome} />
         </a>
       </Link>
@@ -35,7 +35,7 @@ export const PageNav = ({ className, style }: Props) => {
           key={pathname}
           passHref
           href={`/${pathnames.slice(0, index + 1).join("/")}`}>
-          <a>
+          <a className="hover:text-secondary-600">
             <div className="flex items-center">
               <FontAwesomeIcon icon={faAngleRight} className="text-sm ml-2" />
               <span className="text-sm ml-2 font-bold">

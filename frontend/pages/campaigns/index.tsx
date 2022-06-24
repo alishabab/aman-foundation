@@ -132,16 +132,16 @@ const Campaigns = () => {
 
 // Temporary commented to see performance
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const queryClient = new QueryClient();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
 
-//   await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
+  await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
 
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-// };
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 export default Campaigns;

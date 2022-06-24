@@ -9,6 +9,7 @@ export * from "./textarea";
 export * from "./spinner";
 export * from "./heading";
 export * from "./addCampaign";
+export * from "./addStory";
 export * from "./shareBar";
 export * from "./alert";
 export * from "./select";

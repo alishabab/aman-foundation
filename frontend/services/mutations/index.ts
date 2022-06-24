@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { CacheKeys } from "services/cacheKeys";
 import api from "services/api";
-import { Campaign, Image, Achievement, About, SocialLink } from "types";
+import { Campaign, Image, Achievement, About, SocialLink, Story } from "types";
 const uploadImage = async (file: string | ArrayBuffer | null) => {
   const res = await api.post<{ image: { url: string; id: string } }>(
     "/upload",
@@ -37,6 +37,13 @@ const addCampaign = async (
   return res.data.success;
 };
 
+const addStory = async (
+  story: Omit<Story, "id" | "slug" | "createdAt" | "updatedAt" | "addedBy">
+) => {
+  const res = await api.post<{ success: boolean }>("/stories", story);
+  return res.data.success;
+};
+
 const editCampaign = async (
   campaign: Omit<Campaign, "createdAt" | "updatedAt" | "addedBy">
 ) => {
@@ -47,8 +54,23 @@ const editCampaign = async (
   return res.data.success;
 };
 
+const editStory = async (
+  story: Omit<Story, "createdAt" | "updatedAt" | "addedBy">
+) => {
+  const res = await api.put<{ success: boolean }>(
+    `/stories/${story.slug}`,
+    story
+  );
+  return res.data.success;
+};
+
 const deleteCampaign = async (slug: string) => {
   const res = await api.post<{ success: boolean }>(`/campaigns/${slug}`);
+  return res.data.success;
+};
+
+const deleteStory = async (slug: string) => {
+  const res = await api.post<{ success: boolean }>(`/stories/${slug}`);
   return res.data.success;
 };
 
@@ -77,6 +99,15 @@ export const useAddCampaignMutation = () => {
   });
 };
 
+export const useAddStoryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(addStory, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Stories);
+    },
+  });
+};
+
 export const useEditCampaignMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(editCampaign, {
@@ -86,11 +117,29 @@ export const useEditCampaignMutation = () => {
   });
 };
 
+export const useEditStoryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(editStory, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Stories);
+    },
+  });
+};
+
 export const useDeleteCampaignMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(deleteCampaign, {
     onSuccess: () => {
       queryClient.invalidateQueries(CacheKeys.Campaigns);
+    },
+  });
+};
+
+export const useDeleteStoryMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(deleteStory, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(CacheKeys.Stories);
     },
   });
 };
