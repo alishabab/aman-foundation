@@ -56,8 +56,10 @@ export const Footer = () => {
       </p> */}
           <p className="text-gray-500 text-sm mt-8">
             Made with{" "}
-            <FontAwesomeIcon icon={faHeart} className="text-primary-700" /> by
-            Shabab
+            <FontAwesomeIcon icon={faHeart} className="text-primary-700" /> by{" "}
+            <a href="https://linkedin.com/in/shababali" target="__blank">
+              Shabab
+            </a>
           </p>
           <p className="text-xs text-gray-400"></p>
         </div>

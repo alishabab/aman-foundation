@@ -5,8 +5,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import {
   getCampaigns,
+  getImpactStory,
   getOrganization,
   useGetCampaignsQuery,
+  useGetImpactStoryQuery,
   useGetQODQuery,
 } from "services/queries";
 import { CacheKeys } from "services/cacheKeys";
@@ -18,13 +20,14 @@ import {
   faHandHoldingHeart,
   faSunPlantWilt,
 } from "@fortawesome/free-solid-svg-icons";
-import { Alert, Button } from "components";
+import { Button } from "components";
 import { AchievementCard } from "components/achievementCard";
 import { Heading } from "components/heading";
 
 export default function Hero() {
   const { data: campaigns } = useGetCampaignsQuery();
   const { data: qod } = useGetQODQuery();
+  const { data: impactStory } = useGetImpactStoryQuery();
 
   const highlitedCampaigns = campaigns?.filter(
     (campaign) => campaign.isHighlighted
@@ -89,42 +92,6 @@ export default function Hero() {
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
   }, [embla, setScrollSnaps, onSelect]);
-
-  const posts = [
-    {
-      title: "First post",
-      slug: "first-post",
-      image_cover: "/assets/images/media_1.jpg",
-      tags: "gekmd, jdkd ,kddk",
-      publishedAt: "10 Jun, 2021",
-      summary:
-        "lore ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia!",
-      author: "Shabab",
-      designation: "CEO",
-    },
-    {
-      title: "second post",
-      slug: "first-post",
-      image_cover: "/assets/images/media_2.jpg",
-      tags: "gekmd, jdkd ,kddk",
-      publishedAt: "10 Jun, 2021",
-      summary:
-        "lore ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia!",
-      author: "Shabab",
-      designation: "CEO",
-    },
-    {
-      title: "third post",
-      slug: "first-post",
-      image_cover: "/assets/images/media_3.jpg",
-      tags: "gekmd, jdkd ,kddk",
-      publishedAt: "10 Jun, 2021",
-      summary:
-        "lore ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia!",
-      author: "Shabab",
-      designation: "CEO",
-    },
-  ];
 
   const achievements = [
     {
@@ -214,32 +181,33 @@ export default function Hero() {
         </section>
       )}
 
-      <section className="mt-8 px-2">
-        <div className="flex flex-col">
-          <Heading className="mb-2">IMPACT STORY</Heading>
-          <Image
-            src="/assets/images/media_1.jpg"
-            width="100%"
-            height="40%"
-            layout="responsive"
-            objectFit="fill"
-            alt="story"
-            blurDataURL="/assets/images/media_1.jpg"
-          />
-          <h2 className="text-xl text-primary-600 font-bold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </h2>
-          <p className="text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-            excepturi.
-          </p>
-          <Link href="/stories/first-post" passHref>
-            <a className="mt-2">
-              <Button className="w-auto">READ MORE</Button>
-            </a>
-          </Link>
-        </div>
-      </section>
+      {impactStory && (
+        <section className="mt-8 px-2">
+          <div className="flex flex-col">
+            <Heading className="mb-2">IMPACT STORY</Heading>
+            <Image
+              src={impactStory.image.url}
+              width="100%"
+              height="40%"
+              layout="responsive"
+              objectFit="fill"
+              alt={impactStory.title}
+              blurDataURL={impactStory.image.url}
+            />
+            <h2 className="text-xl text-primary-600 font-bold">
+              {impactStory.title}
+            </h2>
+            <p className="text-gray-600">
+              {impactStory.description.substring(0, 100)}...
+            </p>
+            <Link href={`/stories/${impactStory.slug}`} passHref>
+              <a className="mt-2">
+                <Button className="w-auto">READ MORE</Button>
+              </a>
+            </Link>
+          </div>
+        </section>
+      )}
       <section className="mt-8 bg-smiling-children bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto">
         <div className="flex flex-wrap justify-center items-center py-8">
           {achievements.map((achievement) => (
@@ -262,6 +230,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   await queryClient.prefetchQuery(CacheKeys.Campaigns, getCampaigns);
   await queryClient.prefetchQuery(CacheKeys.Organization, getOrganization);
+  await queryClient.prefetchQuery(
+    [CacheKeys.Stories, "impact"],
+    getImpactStory
+  );
 
   return {
     props: {

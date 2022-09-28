@@ -22,6 +22,11 @@ export const getStories = async () => {
   return res.data.data;
 };
 
+export const getImpactStory = async () => {
+  const res = await api.get<{ data: Story }>("/stories/isImpact");
+  return res.data.data;
+};
+
 export const useGetCampaignsQuery = () => {
   return useQuery(CacheKeys.Campaigns, getCampaigns);
 };
@@ -36,6 +41,10 @@ export const useGetOrganizationQuery = () => {
 
 export const useGetStoriesQuery = () => {
   return useQuery(CacheKeys.Stories, getStories);
+};
+
+export const useGetImpactStoryQuery = () => {
+  return useQuery([CacheKeys.Stories, "impact"], getImpactStory);
 };
 
 export const getQuoteOfTheDay = async () => {
