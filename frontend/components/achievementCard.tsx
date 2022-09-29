@@ -6,7 +6,7 @@ import { CSSProperties } from "react";
 interface IProps {
   icon: IconDefinition;
   title: string;
-  description: string;
+  description?: string;
   className?: string;
   style?: CSSProperties;
 }
@@ -26,7 +26,9 @@ export const AchievementCard: NextPage<IProps> = ({
         <FontAwesomeIcon icon={icon} size="5x" />
       </span>
       <h2 className="text-gray-600 text-3xl font-extrabold">{title}</h2>
-      <h3 className="text-primary-900 font-bold text-2xl">{description}</h3>
+      <h3 className="text-primary-900 font-bold text-2xl">
+        {description || ""}
+      </h3>
     </span>
   );
 };

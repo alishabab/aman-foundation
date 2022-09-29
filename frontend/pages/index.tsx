@@ -102,31 +102,11 @@ export default function Hero() {
     embla.on("select", onSelect);
   }, [embla, setScrollSnaps, onSelect]);
 
-  const achievements = [
-    {
-      id: 1,
-      title: "lorem ipsum",
-      description: "lorem ipsum dolor sit.",
-      icon: faBowlRice,
-    },
-    {
-      id: 2,
-      title: "lorem ipsum",
-      description: "lorem ipsum dolor sit.",
-      icon: faBookOpen,
-    },
-    {
-      id: 3,
-      title: "lorem ipsum",
-      description: "lorem ipsum dolor sit.",
-      icon: faHandHoldingHeart,
-    },
-    {
-      id: 4,
-      title: "lorem ipsum",
-      description: "lorem ipsum dolor sit.",
-      icon: faSunPlantWilt,
-    },
+  const achievementsIcons = [
+    faBowlRice,
+    faBookOpen,
+    faHandHoldingHeart,
+    faSunPlantWilt,
   ];
 
   return (
@@ -241,10 +221,10 @@ export default function Hero() {
           </button>
         )}
         <div className="flex flex-wrap justify-center items-center py-8">
-          {organization?.acheivements?.map((achievement) => (
+          {organization?.acheivements?.map((achievement, idx) => (
             <AchievementCard
               key={achievement.title}
-              icon={achievements[0].icon}
+              icon={achievementsIcons[idx]}
               title={achievement.title}
               description={achievement.description}
               className="m-4"
