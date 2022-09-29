@@ -22,6 +22,11 @@ export const getStories = async () => {
   return res.data.data;
 };
 
+export const getStory = async (slug: string) => {
+  const res = await api.get<{ data: Story }>(`/stories/${slug}`);
+  return res.data.data;
+};
+
 export const getImpactStory = async () => {
   const res = await api.get<{ data: Story }>("/stories/isImpact");
   return res.data.data;
@@ -32,7 +37,7 @@ export const useGetCampaignsQuery = () => {
 };
 
 export const useGetCampaignQuery = ({ slug }: { slug: string }) => {
-  return useQuery([CacheKeys.Campaign, slug], () => getCampaign(slug));
+  return useQuery([CacheKeys.Campaigns, slug], () => getCampaign(slug));
 };
 
 export const useGetOrganizationQuery = () => {
@@ -41,6 +46,10 @@ export const useGetOrganizationQuery = () => {
 
 export const useGetStoriesQuery = () => {
   return useQuery(CacheKeys.Stories, getStories);
+};
+
+export const useGetStoryQuery = ({ slug }: { slug: string }) => {
+  return useQuery([CacheKeys.Stories, slug], () => getStory(slug));
 };
 
 export const useGetImpactStoryQuery = () => {

@@ -26,23 +26,21 @@ const Campaign = () => {
         <meta property="og:description" content={campaign?.description} />
         <meta property="og:image" content={campaign?.image.url} />
       </Head>
-      <div className="px-2">
+      <div className="p-2">
         {campaign && (
           <>
-            <h2 className="font-extrabold text-3xl text-secondary-600 mb-2">
+            <h2 className="font-extrabold text-3xl text-primary-600 mb-2">
               {campaign?.title}
             </h2>
             <div className="mb-2 flex justify-between items-center">
               {!campaign.isUpComing && (
-                <h4 className="text-secondary-600 font-bold text-lg">
+                <h4 className="text-gray-600 font-bold text-lg">
                   Beneficiaries so far:{" "}
-                  <i>
-                    <b>
-                      <span className="text-primary-600">
-                        {campaign.noOfBenificiaries}
-                      </span>
-                    </b>
-                  </i>
+                  <b>
+                    <span className="text-gray-600">
+                      {campaign.noOfBenificiaries}
+                    </span>
+                  </b>
                 </h4>
               )}
               <span
@@ -87,7 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery([CacheKeys.Campaign, slug], () =>
+  await queryClient.prefetchQuery([CacheKeys.Campaigns, slug], () =>
     getCampaign(slug)
   );
 

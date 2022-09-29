@@ -21,7 +21,7 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
   };
 
   const getText = () =>
-    `Support this campaign by Aman Foundation. Visit ${getUrl()}`;
+    `Support this cause by Aman Foundation. Visit ${getUrl()}`;
 
   const onClick = (type: SocialMediaType) => {
     switch (type) {
