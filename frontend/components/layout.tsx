@@ -10,9 +10,18 @@ export const Layout: NextPage = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Aman Foundation</title>
-        <meta name="description" content="Aman Foundation" />
+        <title>Aman Foundation India</title>
+        <meta
+          name="description"
+          content="Aman Foundation India is a non-governmental organization (NGO) that runs various projects and campaigns to help the underprivileged in India."
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content="Aman Foundation India" key="title" />
+        <meta
+          property="og:description"
+          content="Aman Foundation India is a non-governmental organization (NGO) that runs various projects and campaigns to help the underprivileged in India."
+        />
+        <meta property="og:image" content="/assets/images/hands.svg" />
       </Head>
       <Navbar />
       {type !== "none" && (
