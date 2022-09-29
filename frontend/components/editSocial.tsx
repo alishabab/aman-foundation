@@ -16,12 +16,14 @@ type Props = SocialLink & { handleDelete: (name: SocialMediaType) => void };
 
 const AddedSocial = ({ name, url, handleDelete }: Props) => {
   return (
-    <div className="flex items-center py-0.5">
-      <FontAwesomeIcon
-        icon={SocialIcons[name]}
-        className="text-primary-600 w-1/12"
-      />
-      <p className="text-sm text-gray-600 w-7/12">{url}</p>
+    <div className="flex items-center justify-between p-0.5">
+      <div className="flex items-center">
+        <FontAwesomeIcon
+          icon={SocialIcons[name]}
+          className="text-primary-600 w-1/12"
+        />
+        <p className="text-sm text-gray-600 w-7/12">{url}</p>
+      </div>
       <button
         className="text-secondary-600"
         onClick={() => {
