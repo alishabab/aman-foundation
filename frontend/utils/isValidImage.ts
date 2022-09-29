@@ -9,7 +9,7 @@ const isValidImageProperties = (image: HTMLImageElement): Promise<boolean> => {
 
 export const isValidImage = async (file: File): Promise<boolean> => {
   let isValid: boolean;
-  const ALLOWED_FILE_TYPES = /\.(jpg|jpeg|png)$/;
+  const ALLOWED_FILE_TYPES = /\.(jpg|jpeg|png|svg)$/;
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
   if (
     !!file.type.match(/^image/gi) &&

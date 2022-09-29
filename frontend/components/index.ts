@@ -14,3 +14,4 @@ export * from "./shareBar";
 export * from "./alert";
 export * from "./select";
 export * from "./editSocial";
+export * from "./editLogo";

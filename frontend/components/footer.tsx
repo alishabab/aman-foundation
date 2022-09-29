@@ -9,11 +9,13 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useGetOrganizationQuery } from "services/queries";
 import { Logo } from "./logo";
+import { EditLogo } from "./editLogo";
 
 export const Footer = () => {
   const session = useSession();
   const { data: organization } = useGetOrganizationQuery();
   const [isEditSocial, setIsEditSocial] = useState(false);
+  const [isEditLogo, setIsEditLogo] = useState(false);
   return (
     <>
       <Modal
@@ -28,15 +30,39 @@ export const Footer = () => {
           }}
         />
       </Modal>
+
+      <Modal
+        isOpen={isEditLogo}
+        onClick={() => {
+          setIsEditLogo(false);
+        }}>
+        <EditLogo
+          name={organization?.name}
+          logo={organization?.logo}
+          cb={() => {
+            setIsEditLogo(false);
+          }}
+        />
+      </Modal>
       <footer className="border-t-[0.0125rem] border-gray-300 bg-gray-100 py-8 px-4">
         <div className="flex flex-col items-center">
-          <div className="mb-4 text-primary-600">
+          <div className="mb-4 relative text-primary-600">
+            {session?.data?.isAdmin && (
+              <button
+                className="absolute -right-10 top-5 text-secondary-600"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsEditLogo(true);
+                }}>
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+            )}
             <Logo />
           </div>
           <div className="flex items-center space-x-8 relative">
             {session?.data?.isAdmin && (
               <button
-                className="absolute -right-8 -top-8 text-secondary-600"
+                className="absolute -right-12 top-0 text-secondary-600"
                 onClick={() => setIsEditSocial(true)}>
                 <FontAwesomeIcon icon={faEdit} />
               </button>
