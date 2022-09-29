@@ -118,6 +118,7 @@ export default function Hero() {
         }}>
         <EditAchievements
           achievements={organization?.acheivements}
+          cover={organization?.cover}
           cb={() => {
             setIsEditAchievements(false);
           }}
@@ -189,7 +190,7 @@ export default function Hero() {
             <Image
               src={impactStory.image.url}
               width="100%"
-              height="40%"
+              height="50%"
               layout="responsive"
               objectFit="fill"
               alt={impactStory.title}
@@ -209,7 +210,15 @@ export default function Hero() {
           </div>
         </section>
       )}
-      <section className="mt-8 bg-smiling-children bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto relative">
+      <section
+        className={`mt-8 bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto relative`}
+        style={{
+          backgroundImage: `url(${
+            organization?.cover?.url
+              ? organization?.cover?.url
+              : "/assets/images/media_1.jpg"
+          })`,
+        }}>
         {session?.data?.isAdmin && (
           <button
             className="absolute right-8 -top-8 text-secondary-600"
