@@ -15,3 +15,4 @@ export * from "./alert";
 export * from "./select";
 export * from "./editSocial";
 export * from "./editLogo";
+export * from "./editAchievements";

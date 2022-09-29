@@ -53,9 +53,13 @@ export const StoryCard: NextPage<Props> = ({
               ? description.substring(0, 40) + "..."
               : description}
           </p>
-          <Button rounded onClick={(e) => e.preventDefault()} className="mt-2">
-            Read More
-          </Button>
+          <Link passHref href={`/stories/${story.slug}`}>
+            <a>
+              <Button rounded className="mt-2">
+                Read More
+              </Button>
+            </a>
+          </Link>
         </div>
       </div>
     </div>

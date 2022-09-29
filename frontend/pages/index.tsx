@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -9,18 +10,21 @@ import {
   getOrganization,
   useGetCampaignsQuery,
   useGetImpactStoryQuery,
+  useGetOrganizationQuery,
   useGetQODQuery,
 } from "services/queries";
 import { CacheKeys } from "services/cacheKeys";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBowlRice,
   faBookOpen,
   faHandHoldingHeart,
   faSunPlantWilt,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "components";
+import { Button, Modal, EditAchievements } from "components";
 import { AchievementCard } from "components/achievementCard";
 import { Heading } from "components/heading";
 
@@ -28,6 +32,11 @@ export default function Hero() {
   const { data: campaigns } = useGetCampaignsQuery();
   const { data: qod } = useGetQODQuery();
   const { data: impactStory } = useGetImpactStoryQuery();
+  const { data: organization } = useGetOrganizationQuery();
+
+  const session = useSession();
+
+  const [isEditAchievements, setIsEditAchievements] = useState(false);
 
   const highlitedCampaigns = campaigns?.filter(
     (campaign) => campaign.isHighlighted
@@ -122,6 +131,18 @@ export default function Hero() {
 
   return (
     <>
+      <Modal
+        isOpen={isEditAchievements}
+        onClick={() => {
+          setIsEditAchievements(false);
+        }}>
+        <EditAchievements
+          achievements={organization?.acheivements}
+          cb={() => {
+            setIsEditAchievements(false);
+          }}
+        />
+      </Modal>
       <section className="relative">
         {/* Carousel viewport */}
         <div className="overflow-hidden" ref={emblaRef}>
@@ -208,12 +229,22 @@ export default function Hero() {
           </div>
         </section>
       )}
-      <section className="mt-8 bg-smiling-children bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto">
+      <section className="mt-8 bg-smiling-children bg-secondary-500 bg-cover bg-center bg-blend-screen h-auto relative">
+        {session?.data?.isAdmin && (
+          <button
+            className="absolute right-8 -top-8 text-secondary-600"
+            onClick={(e) => {
+              e.preventDefault();
+              setIsEditAchievements(true);
+            }}>
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        )}
         <div className="flex flex-wrap justify-center items-center py-8">
-          {achievements.map((achievement) => (
+          {organization?.acheivements?.map((achievement) => (
             <AchievementCard
-              key={achievement.id}
-              icon={achievement.icon}
+              key={achievement.title}
+              icon={achievements[0].icon}
               title={achievement.title}
               description={achievement.description}
               className="m-4"
