@@ -38,9 +38,9 @@ export default function Hero() {
 
   const [isEditAchievements, setIsEditAchievements] = useState(false);
 
-  const highlitedCampaigns = campaigns?.filter(
-    (campaign) => campaign.isHighlighted
-  );
+  const highlitedCampaigns = campaigns
+    ?.filter((campaign) => campaign.isHighlighted)
+    .slice(0, 5);
   const autoplay = useRef(
     Autoplay(
       { delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true },
@@ -148,11 +148,15 @@ export default function Hero() {
                   <div className="bg-gray-900/70 rounded-md absolute top-[5%] left-[5%] text-primary-600 font-semibold text-xl py-0.5 px-2">
                     {campaign.title}
                   </div>
-                  <Button
-                    rounded
-                    className="w-auto absolute bottom-[15%] right-[10%]">
-                    Support
-                  </Button>
+                  <Link passHref href="/donate">
+                    <a>
+                      <Button
+                        rounded
+                        className="w-auto absolute bottom-[15%] right-[10%]">
+                        Support
+                      </Button>
+                    </a>
+                  </Link>
                 </div>
               );
             })}

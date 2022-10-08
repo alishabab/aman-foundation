@@ -6,6 +6,7 @@ import { NextPage } from "next";
 import { CSSProperties, useState } from "react";
 import { Button } from "./button";
 import { useAlert } from "context/AlertContext";
+import Link from "next/link";
 
 interface Props {
   className?: string;
@@ -90,9 +91,13 @@ export const ShareBar: NextPage<Props> = ({ className, style }) => {
           </button>
         </div>
       </div>
-      <Button rounded className="w-3/12">
-        Support
-      </Button>
+      <Link passHref href="/donate">
+        <a>
+          <Button rounded className="w-auto">
+            Support
+          </Button>
+        </a>
+      </Link>
     </div>
   );
 };

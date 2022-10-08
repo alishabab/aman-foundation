@@ -57,12 +57,13 @@ export const CampaignCard: NextPage<Props> = ({
                   ? description.substring(0, 40) + "..."
                   : description}
               </p>
-              <Button
-                rounded
-                onClick={(e) => e.preventDefault()}
-                className="mt-2">
-                Support
-              </Button>
+              <Link passHref href="/donate">
+                <a>
+                  <Button rounded className="mt-2">
+                    Support
+                  </Button>
+                </a>
+              </Link>
             </div>
           </div>
         </a>
