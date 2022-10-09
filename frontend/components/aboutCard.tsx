@@ -48,7 +48,7 @@ export const AboutCard = ({
           blurDataURL={image.url}
         />
       )}
-      {description && <p className="mt-2">{description}</p>}
+      {description && <p className="mt-2 whitespace-pre-wrap">{description}</p>}
     </div>
   );
 };
