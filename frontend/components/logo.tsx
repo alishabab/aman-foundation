@@ -18,11 +18,11 @@ export const Logo: NextPage<IProps> = ({ className, style }) => {
             ? organization.logo.url
             : "/assets/images/hands.svg"
         }
-        width={64}
-        height={64}
+        width={56}
+        height={56}
         alt="logo"
       />
-      <h4 className="text-inherit text-xl font-bold">
+      <h4 className="text-inherit text-xl font-bold ml-2">
         {organization?.name || "Aman Foundation"}
       </h4>
     </div>
