@@ -233,7 +233,7 @@ export default function Hero() {
             <FontAwesomeIcon icon={faEdit} />
           </button>
         )}
-        <div className="flex flex-wrap justify-center items-center py-8">
+        <div className="flex flex-col justify-center items-center py-8">
           {organization?.acheivements?.map((achievement, idx) => (
             <AchievementCard
               key={achievement.title}
