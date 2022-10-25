@@ -6,6 +6,7 @@ const administrators = [
   "shababsaifi@gmail.com",
   "suhailghori@gmail.com",
   "aapka.gouher@gmail.com",
+  "ssiddiqui70@gmail.com",
 ];
 
 export default NextAuth({
